@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 export default function LanguageDropdown() {
-  let [value, setValue] = useState("");
+  let [languageValue, setLanguageValue] = useState("");
   const options = [
     { label: "Arabic", value: 1 },
     { label: "Chinese", value: 2 },
@@ -20,20 +20,20 @@ export default function LanguageDropdown() {
     { label: "Urdu", value: 14 },
   ];
   function handleSelect(event) {
-    setValue(event.target.value);
+    setLanguageValue(event.target.value);
   }
   return (
     <div className="flex justify-content-center mt-5">
       <div className="w-50 p-3 border rounded">
         <select className="form-select" onChange={handleSelect}>
-          <option>-</option>
+          <option></option>
           {options.map((option) => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>
           ))}
         </select>
-        <p>{value}</p>
+        <p>{languageValue}</p>
       </div>
     </div>
   );
