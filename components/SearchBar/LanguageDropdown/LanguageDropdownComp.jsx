@@ -31,7 +31,6 @@ export default function LanguageDropdown({ languageValue, setLanguageValue }) {
             </option>
           ))}
         </select>
-        <p>{languageValue}</p> {/*displayed just for development */}
       </div>
     </div>
   );
