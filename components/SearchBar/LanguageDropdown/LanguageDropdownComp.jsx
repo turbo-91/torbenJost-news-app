@@ -1,23 +1,21 @@
 import React from "react";
-import { useState } from "react";
 
-export default function LanguageDropdown() {
-  let [languageValue, setLanguageValue] = useState("");
+export default function LanguageDropdown({ languageValue, setLanguageValue }) {
   const options = [
-    { label: "Arabic", value: 1 },
-    { label: "Chinese", value: 2 },
-    { label: "Dutch", value: 3 },
-    { label: "English", value: 4 },
-    { label: "French", value: 5 },
-    { label: "German", value: 6 },
-    { label: "Hebrew", value: 7 },
-    { label: "Italian", value: 8 },
-    { label: "Norwegian", value: 9 },
-    { label: "Portuguese", value: 10 },
-    { label: "Russian", value: 11 },
-    { label: "Spanish", value: 12 },
-    { label: "Swedish", value: 13 },
-    { label: "Urdu", value: 14 },
+    { label: "Arabic", value: "ar" },
+    { label: "Chinese", value: "zh" },
+    { label: "Dutch", value: "nl" },
+    { label: "English", value: "en" },
+    { label: "French", value: "fr" },
+    { label: "German", value: "de" },
+    { label: "Hebrew", value: "he" },
+    { label: "Italian", value: "it" },
+    { label: "Norwegian", value: "no" },
+    { label: "Portuguese", value: "pt" },
+    { label: "Russian", value: "ru" },
+    { label: "Spanish", value: "es" },
+    { label: "Swedish", value: "sv" },
+    { label: "Urdu", value: "ur" },
   ];
   function handleSelect(event) {
     setLanguageValue(event.target.value);

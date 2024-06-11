@@ -5,10 +5,7 @@ import format from "date-fns/format";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-export default function DateRangeComp() {
-  //state to store date:
-  const [dateRange, setDateRange] = useState("");
-
+export default function DateRangeComp({ dateRange, setDateRange }) {
   // open close calendar table state:
   const [open, setOpen] = useState(false);
 
@@ -18,6 +15,7 @@ export default function DateRangeComp() {
   // set current date on component load:
   useEffect(() => {
     setDateRange(format(new Date(), "MM/dd/yyyy"));
+
     // event listeners to open/close calendar table
     document.addEventListener("keydown", hideOnEscape, true);
     document.addEventListener("click", hideOnClickOutside, true);
