@@ -9,7 +9,7 @@ import useSWR from "swr";
 // that will be dynamically inserted in the GET URL
 // that I will use to fetch data
 
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
   // makes spaces impossible in the input field to make sure there is only one keyword
   const handleKeyDown = (event) => {
     if (event.key === " ") {
