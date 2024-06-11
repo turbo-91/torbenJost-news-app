@@ -33,7 +33,7 @@ export default function LanguageDropdown() {
             </option>
           ))}
         </select>
-        <p>{languageValue}</p>
+        <p>{languageValue}</p> {/*displayed just for development */}
       </div>
     </div>
   );

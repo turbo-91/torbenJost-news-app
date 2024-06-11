@@ -1,15 +1,10 @@
-import LanguageDropdown from "./Language Dropdown/LanguageDropdown";
+import DateRangeComp from "./Date Range Picker/DateRangeComp";
+import LanguageDropdown from "./Language Dropdown/LanguageDropdownComp";
 
 export default function SearchBar() {
   return (
     <>
-      <label className="input" htmlFor="from">
-        from:
-      </label>
-      <input name="from"></input>
-      <label className="input" htmlFor="to">
-        to:
-      </label>
+      <DateRangeComp />
       <input name="from"></input>
       <label className="input" htmlFor="from">
         keywords:
