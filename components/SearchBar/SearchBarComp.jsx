@@ -23,37 +23,54 @@ export default function SearchBar() {
   const [keyWord, setKeyword] = useState("");
 
   // Data fetching
-
-  // const fetcher = (url) => fetch(url).then((res) => res.json());
-  // const { data, error } = useSWR(url, fetcher);
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setUrl(
-  //     `https://newsapi.org/v2/everything?q=${keyWord}&from=2024-06-10&to=2024-06-10&s`
-  //   );
-  // };
+  const [url, setUrl] = useState(null);
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const { data, error } = useSWR(url, fetcher);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUrl(
+      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+    );
+  };
 
   return (
     <>
-      <DateRangeComp
-        dateRange={dateRangeFrom}
-        setDateRange={setDateRangeFrom}
-        labelDateRange={"From"}
-      />
-      <DateRangeComp
-        dateRange={dateRangeTo}
-        setDateRange={setDateRangeTo}
-        labelDateRange={"To"}
-      />
-      <label className="input" htmlFor="keywords">
-        type a keyword:
-      </label>
-      <input id="keywords" onKeyDown={handleKeyDown}></input>
-      <LanguageDropdown
-        languageValue={languageValue}
-        setLanguageValue={setLanguageValue}
-      />
-      <button className="button">search</button>
+      <form onSubmit={handleSubmit}>
+        <DateRangeComp
+          dateRange={dateRangeFrom}
+          setDateRange={setDateRangeFrom}
+          labelDateRange={"From"}
+        />
+        <DateRangeComp
+          dateRange={dateRangeTo}
+          setDateRange={setDateRangeTo}
+          labelDateRange={"To"}
+        />
+        <label className="input" htmlFor="keywords">
+          type a keyword:
+        </label>
+        <input
+          id="keywords"
+          value={keyWord}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <LanguageDropdown
+          languageValue={languageValue}
+          setLanguageValue={setLanguageValue}
+        />
+        <button className="button" type="submit">
+          search
+        </button>
+      </form>
+      {error && <div>Failed to load data</div>}
+      {!error && !data && url && <div>Loading...</div>}
+      {data && (
+        <div>
+          <h3>Results:</h3>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
     </>
   );
 }
