@@ -6,6 +6,7 @@ const customLoader = ({ src }) => {
 };
 
 export default function ArticleCard({ article }) {
+  console.log(article);
   return (
     <div className="article-card">
       <b>
@@ -18,6 +19,10 @@ export default function ArticleCard({ article }) {
       </p>
       <p>
         <strong>Source:</strong> {article.source.name}
+      </p>
+      <p>
+        <strong>Published At:</strong>{" "}
+        {new Date(article.publishedAt).toLocaleString()}
       </p>
       {article.urlToImage && (
         <Image
