@@ -1,4 +1,4 @@
-import ArticleCard from "@/components/Card/Card";
+import ArticleCard from "@/components/Card/ArticleCardComp";
 import SearchBar from "@/components/SearchBar/SearchBarComp";
 import useSWR from "swr";
 import { useState } from "react";
@@ -33,7 +33,15 @@ export default function SearchPage() {
         setKeyword={setKeyword}
         onSearch={handleSearch}
       />
-      <ArticleCard data={data} error={error} isLoading={isLoading} />
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Failed to load data</p>}
+      {data && data.articles && (
+        <div>
+          {data.articles.map((article, index) => (
+            <ArticleCard key={index} article={article} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

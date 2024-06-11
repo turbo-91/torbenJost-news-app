@@ -38,13 +38,8 @@ export default function SearchBar({
         <DateRangeComp
           dateRange={dateRangeFrom}
           setDateRange={setDateRangeFrom}
-          labelDateRange={"From"}
         />
-        <DateRangeComp
-          dateRange={dateRangeTo}
-          setDateRange={setDateRangeTo}
-          labelDateRange={"To"}
-        />
+        <DateRangeComp dateRange={dateRangeTo} setDateRange={setDateRangeTo} />
         <label className="input" htmlFor="keywords">
           type a keyword:
         </label>
