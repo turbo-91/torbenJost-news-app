@@ -17,22 +17,34 @@ export default function SearchBar() {
     }
   };
   // States to store date range & language dropdown value
-  const [dateRange, setDateRange] = useState("");
+  const [dateRangeFrom, setDateRangeFrom] = useState("");
+  const [dateRangeTo, setDateRangeTo] = useState("");
   const [languageValue, setLanguageValue] = useState("");
   const [keyWord, setKeyword] = useState("");
 
   // Data fetching
 
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR(url, fetcher);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUrl(`https://api.example.com/data?search=${query}`);
-  };
+  // const fetcher = (url) => fetch(url).then((res) => res.json());
+  // const { data, error } = useSWR(url, fetcher);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setUrl(
+  //     `https://newsapi.org/v2/everything?q=${keyWord}&from=2024-06-10&to=2024-06-10&s`
+  //   );
+  // };
 
   return (
     <>
-      <DateRangeComp dateRange={dateRange} setDateRange={setDateRange} />
+      <DateRangeComp
+        dateRange={dateRangeFrom}
+        setDateRange={setDateRangeFrom}
+        labelDateRange={"From"}
+      />
+      <DateRangeComp
+        dateRange={dateRangeTo}
+        setDateRange={setDateRangeTo}
+        labelDateRange={"To"}
+      />
       <label className="input" htmlFor="keywords">
         type a keyword:
       </label>
