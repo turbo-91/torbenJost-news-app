@@ -15,8 +15,20 @@ export default function HomePage() {
   const { data, error } = useSWR(url, fetcher, { shouldRetryOnError: false });
   const isLoading = !error && !data && !!url;
 
-  // console.log("data:", data);
+  const handleCountryChange = (value) => {
+    setCountryValue(value);
+    setUrl(
+      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+    );
+  };
 
+  // console.log data whenever it changes (country dropdown)
+  useEffect(() => {
+    // Log data whenever it changes
+    console.log("Fetched data:", data);
+  }, [data]);
+
+  // Slider functionality
   const sliderRef = useRef(null);
 
   const next = () => {
@@ -34,13 +46,6 @@ export default function HomePage() {
     slidesToScroll: 1,
   };
 
-  const handleCountryChange = (value) => {
-    setCountryValue(value);
-    setUrl(
-      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
-    );
-  };
-
   return (
     <div>
       <CountryDropdown
@@ -52,13 +57,11 @@ export default function HomePage() {
       {data && data.articles && (
         <div className="slider-container">
           <Slider ref={sliderRef} {...settings}>
-            {data.articles
-              .filter((article) => article.urlToImage !== null) // filter out articles without an image
-              .map((article, index) => (
-                <div key={index}>
-                  <ArticleCard article={article} />
-                </div>
-              ))}
+            {data.articles.map((article, index) => (
+              <div key={index}>
+                <ArticleCard article={article} />
+              </div>
+            ))}
           </Slider>
           <div style={{ textAlign: "center" }}>
             <button className="button" onClick={previous}>
