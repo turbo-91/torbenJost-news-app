@@ -7,6 +7,13 @@ export const authOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id,
+          // This ID is required but it will not be saved in your users collection
+          name: profile.name,
+        };
+      },
     }),
     // ...add more providers here
   ],
