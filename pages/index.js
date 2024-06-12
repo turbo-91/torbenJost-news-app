@@ -5,21 +5,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
+import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
 
 export default function HomePage() {
+  // Data fetching
   const [url, setUrl] = useState(null);
-
-  useEffect(() => {
-    setUrl(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=21247b89f2cf48c48d0df5ed148af376`
-    );
-  }, []);
-
+  const [countryValue, setCountryValue] = useState("");
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, error } = useSWR(url, fetcher, { shouldRetryOnError: false });
-
   const isLoading = !error && !data && !!url;
-  console.log("data:", data);
+
+  // console.log("data:", data);
 
   const sliderRef = useRef(null);
 
@@ -38,18 +34,31 @@ export default function HomePage() {
     slidesToScroll: 1,
   };
 
+  const handleCountryChange = (value) => {
+    setCountryValue(value);
+    setUrl(
+      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+    );
+  };
+
   return (
     <div>
+      <CountryDropdown
+        countryValue={countryValue}
+        setCountryValue={handleCountryChange}
+      />
       {isLoading && <p>Loading...</p>}
       {error && <p>Failed to load data</p>}
       {data && data.articles && (
         <div className="slider-container">
           <Slider ref={sliderRef} {...settings}>
-            {data.articles.map((article, index) => (
-              <div key={index}>
-                <ArticleCard article={article} />
-              </div>
-            ))}
+            {data.articles
+              .filter((article) => article.urlToImage !== null) // filter out articles without an image
+              .map((article, index) => (
+                <div key={index}>
+                  <ArticleCard article={article} />
+                </div>
+              ))}
           </Slider>
           <div style={{ textAlign: "center" }}>
             <button className="button" onClick={previous}>

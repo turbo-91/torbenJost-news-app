@@ -22,6 +22,7 @@ export default function SearchPage() {
   };
   return (
     <>
+      <h1>NEWS APP</h1>
       <SearchBar
         dateRangeFrom={dateRangeFrom}
         setDateRangeFrom={setDateRangeFrom}
