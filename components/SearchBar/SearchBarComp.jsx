@@ -1,5 +1,5 @@
 import DateRangeComp from "./DateRangePicker/DateRangeComp";
-import LanguageDropdown from "./LanguageDropdown/LanguageDropdownComp";
+import LanguageDropdown from "../LanguageDropdown/LanguageDropdownComp";
 import { useState } from "react";
 import useSWR from "swr";
 

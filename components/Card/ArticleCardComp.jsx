@@ -6,7 +6,7 @@ const customLoader = ({ src }) => {
 };
 
 export default function ArticleCard({ article }) {
-  console.log(article);
+  // console.log(article);
   return (
     <div className="article-card">
       <b>
