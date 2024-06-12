@@ -2,6 +2,7 @@ import React from "react";
 
 export default function LanguageDropdown({ languageValue, setLanguageValue }) {
   const options = [
+    { label: "All", value: "" },
     { label: "Arabic", value: "ar" },
     { label: "Chinese", value: "zh" },
     { label: "Dutch", value: "nl" },
@@ -24,7 +25,6 @@ export default function LanguageDropdown({ languageValue, setLanguageValue }) {
     <div className="flex justify-content-center mt-5">
       <div className="w-50 p-3 border rounded">
         <select className="form-select" onChange={handleSelect}>
-          <option>All</option>
           {options.map((option) => (
             <option value={option.value} key={option.value}>
               {option.label}
