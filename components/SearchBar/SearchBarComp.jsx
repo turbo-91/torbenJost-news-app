@@ -9,28 +9,27 @@ import useSWR from "swr";
 // that will be dynamically inserted in the GET URL
 // that I will use to fetch data
 
-export default function SearchBar() {
+export default function SearchBar({
+  dateRangeFrom,
+  setDateRangeFrom,
+  dateRangeTo,
+  setDateRangeTo,
+  languageValue,
+  setLanguageValue,
+  keyWord,
+  setKeyword,
+  onSearch,
+}) {
   // makes spaces impossible in the input field to make sure there is only one keyword
   const handleKeyDown = (event) => {
     if (event.key === " ") {
       event.preventDefault();
     }
   };
-  // States to store date range & language dropdown value
-  const [dateRangeFrom, setDateRangeFrom] = useState("");
-  const [dateRangeTo, setDateRangeTo] = useState("");
-  const [languageValue, setLanguageValue] = useState("");
-  const [keyWord, setKeyword] = useState("");
 
-  // Data fetching
-  const [url, setUrl] = useState(null);
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR(url, fetcher);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUrl(
-      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=21247b89f2cf48c48d0df5ed148af376`
-    );
+    onSearch();
   };
 
   return (
@@ -39,13 +38,8 @@ export default function SearchBar() {
         <DateRangeComp
           dateRange={dateRangeFrom}
           setDateRange={setDateRangeFrom}
-          labelDateRange={"From"}
         />
-        <DateRangeComp
-          dateRange={dateRangeTo}
-          setDateRange={setDateRangeTo}
-          labelDateRange={"To"}
-        />
+        <DateRangeComp dateRange={dateRangeTo} setDateRange={setDateRangeTo} />
         <label className="input" htmlFor="keywords">
           type a keyword:
         </label>
@@ -63,14 +57,6 @@ export default function SearchBar() {
           search
         </button>
       </form>
-      {error && <div>Failed to load data</div>}
-      {!error && !data && url && <div>Loading...</div>}
-      {data && (
-        <div>
-          <h3>Results:</h3>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      )}
     </>
   );
 }

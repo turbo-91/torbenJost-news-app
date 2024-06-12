@@ -5,11 +5,7 @@ import format from "date-fns/format";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-export default function DateRangeComp({
-  dateRange,
-  setDateRange,
-  labelDateRange,
-}) {
+export default function DateRangeComp({ dateRange, setDateRange }) {
   // open close calendar table state:
   const [open, setOpen] = useState(false);
 
@@ -50,9 +46,7 @@ export default function DateRangeComp({
   };
   return (
     <div className="calenderWrap">
-      <label htmlFor={labelDateRange}>{labelDateRange}</label>
       <input
-        key={labelDateRange}
         value={dateRange}
         readOnly
         className="dataRangeInputBox"
