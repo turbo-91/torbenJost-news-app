@@ -3,7 +3,7 @@ import React from "react";
 export default function CountryDropdown({ countryValue, setCountryValue }) {
   const options = [
     { label: "United Arab Emirates", value: "ae" },
-    { label: "Arabic", value: "ar" },
+    { label: "Argentina", value: "ar" },
     { label: "Austria", value: "at" },
     { label: "Australia", value: "au" },
     { label: "Belgium", value: "be" },

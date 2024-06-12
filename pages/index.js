@@ -48,6 +48,8 @@ export default function HomePage() {
 
   return (
     <div>
+      <h1>Top Headlines</h1>
+      <p>from:</p>
       <CountryDropdown
         countryValue={countryValue}
         setCountryValue={handleCountryChange}
