@@ -1,15 +1,22 @@
-import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-
-export const authOptions = {
-  // Configure one or more authentication providers
+const authOptions = {
   providers: [
-    GithubProvider({
+    Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
-    // ...add more providers here
   ],
-};
+  adapter: MongoDBAdapter(clientPromise),
+  callbacks: {
+    async session({ session, user }) {
+      // The user object from the database contains the ID of the user in your database
 
-export default NextAuth(authOptions);
+      session.user.userId = user.id;
+
+      // With the code above you can add the user ID to the session object and use it in your pages
+
+      // Make sure you console.log the session and user objects to see what they contain
+
+      return session;
+    },
+  },
+};
