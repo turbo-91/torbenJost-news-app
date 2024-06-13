@@ -1,7 +1,10 @@
+import LoginButton from "@/components/LoginButton";
+
 export default function LoginPage() {
   return (
-    <div>
-      <h1>login page</h1>
-    </div>
+    <>
+      <h1>User Area</h1>
+      <LoginButton />
+    </>
   );
 }

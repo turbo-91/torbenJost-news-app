@@ -1,15 +1,19 @@
-const authOptions = {
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "../../../db/db";
+
+export const authOptions = {
   providers: [
-    Providers.GitHub({
+    GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       profile(profile) {
+        console.log("profile", profile);
         return {
           id: profile.id,
-          // This ID is required but it will not be saved in your users collection
           name: profile.name,
           email: profile.email,
-          image: profile.avatar_url,
         };
       },
     }),
@@ -17,15 +21,18 @@ const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async session({ session, user }) {
-      // The user object from the database contains the ID of the user in your database
+      // Log the user and session objects
 
+      // Add user details to the session object
       session.user.userId = user.id;
+      session.user.name = user.name;
+      session.user.email = user.email;
 
-      // With the code above you can add the user ID to the session object and use it in your pages
-
-      // Make sure you console.log the session and user objects to see what they contain
+      console.log("session", session);
 
       return session;
     },
   },
 };
+
+export default NextAuth(authOptions);
