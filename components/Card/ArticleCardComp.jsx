@@ -1,24 +1,40 @@
 import Image from "next/image";
+import { useState } from "react";
 
 // bypass next/Image components domain restriction! Caution! Security concern.
 const customLoader = ({ src }) => {
   return src;
 };
 
-export default function ArticleCard({ article }) {
-  // console.log(article);
+export default function ArticleCard({
+  article,
+  isFavorite,
+  onRemoveFromFavorites,
+}) {
+  const [localIsFavorite, setLocalIsFavorite] = useState(isFavorite);
+
+  const toggleFavorite = () => {
+    const newFavoriteStatus = !localIsFavorite;
+    setLocalIsFavorite(newFavoriteStatus);
+
+    // Serialize the entire article object to store in localStorage
+    if (newFavoriteStatus) {
+      localStorage.setItem(article.title, JSON.stringify(article));
+    } else {
+      localStorage.removeItem(article.title);
+      // Trigger removal from FavoritesList component
+      if (typeof onRemoveFromFavorites === "function") {
+        onRemoveFromFavorites();
+      }
+    }
+  };
+
   return (
     <div className="article-card">
-      <b>
-        ********************************************************************************************************************
-      </b>
       <h2>{article.title}</h2>
       <p>{article.description}</p>
       <p>
         <strong>Author:</strong> {article.author}
-      </p>
-      <p>
-        <strong>Source:</strong> {article.source.name}
       </p>
       <p>
         <strong>Published At:</strong>{" "}
@@ -38,6 +54,9 @@ export default function ArticleCard({ article }) {
           Read more
         </a>
       </p>
+      <button onClick={toggleFavorite}>
+        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </button>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import ArticleCard from "@/components/Card/ArticleCardComp";
 import SearchBar from "@/components/SearchBar/SearchBarComp";
 import useSWR from "swr";
 import { useState } from "react";
+import FavoritesList from "@/components/FavoritesList/FavoritesList";
 
 export default function SearchPage() {
   // States to store date range & language dropdown value
