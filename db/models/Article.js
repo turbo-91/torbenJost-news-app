@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const articleSchema = new Schema({
+  _id: mongoose.Schema.Types.ObjectId,
   source: {
     id: { type: String },
     name: { type: String, required: true },
