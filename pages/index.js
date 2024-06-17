@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import ArticleCard from "@/components/Card/ArticleCardComp";
 import useSWR from "swr";
 import Slider from "react-slick";
@@ -6,6 +7,51 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
+
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+const Headline = styled.h1`
+  font-size: 2rem;
+  margin-bottom: 20px;
+`;
+
+const LoadingMessage = styled.p`
+  text-align: center;
+  font-style: italic;
+`;
+
+const ErrorMessage = styled.p`
+  text-align: center;
+  color: red;
+`;
+
+const SliderContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const NavigationButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #005bb5;
+    }
+  }
+`;
 
 export default function HomePage() {
   // Data fetching
@@ -21,12 +67,6 @@ export default function HomePage() {
       `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
     );
   };
-
-  // console.log data whenever it changes (country dropdown)
-  useEffect(() => {
-    // Log data whenever it changes
-    console.log("Fetched data:", data);
-  }, [data]);
 
   // Slider functionality
   const sliderRef = useRef(null);
@@ -47,17 +87,17 @@ export default function HomePage() {
   };
 
   return (
-    <div>
-      <h1>Top Headlines</h1>
-      <p>from:</p>
+    <Container>
+      <Headline>Top Headlines</Headline>
+      <p>From:</p>
       <CountryDropdown
         countryValue={countryValue}
         setCountryValue={handleCountryChange}
       />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Failed to load data</p>}
+      {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
+      {error && <ErrorMessage>Failed to load data</ErrorMessage>}
       {data && data.articles && (
-        <div className="slider-container">
+        <SliderContainer>
           <Slider ref={sliderRef} {...settings}>
             {data.articles.map((article, index) => (
               <div key={index}>
@@ -65,16 +105,12 @@ export default function HomePage() {
               </div>
             ))}
           </Slider>
-          <div style={{ textAlign: "center" }}>
-            <button className="button" onClick={previous}>
-              Previous
-            </button>
-            <button className="button" onClick={next}>
-              Next
-            </button>
-          </div>
-        </div>
+          <NavigationButtons>
+            <button onClick={previous}>Previous</button>
+            <button onClick={next}>Next</button>
+          </NavigationButtons>
+        </SliderContainer>
       )}
-    </div>
+    </Container>
   );
 }

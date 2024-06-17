@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -6,12 +7,69 @@ const customLoader = ({ src }) => {
   return src;
 };
 
+const Card = styled.div`
+  position: relative;
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+`;
+
+const Title = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+`;
+
+const Description = styled.p`
+  margin: 8px 0;
+`;
+
+const Author = styled.p`
+  margin: 8px 0;
+  font-weight: bold;
+`;
+
+const Source = styled.p`
+  margin: 8px 0;
+`;
+
+const PublishedAt = styled.p`
+  margin: 8px 0;
+`;
+
+const ReadMore = styled.a`
+  display: inline-block;
+  margin-top: 12px;
+  color: #0070f3;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const FavoriteButton = styled.button`
+  background-color: ${(props) => (props.isfavorite ? "#ff0000" : "#0070f3")};
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 12px;
+
+  &:hover {
+    background-color: ${(props) => (props.isfavorite ? "#cc0000" : "#005bb5")};
+  }
+`;
+
 export default function ArticleCard({
   article,
-  isFavorite,
+  isfavorite,
   onRemoveFromFavorites,
 }) {
-  const [localIsFavorite, setLocalIsFavorite] = useState(isFavorite);
+  const [localIsFavorite, setLocalIsFavorite] = useState(isfavorite);
 
   const toggleFavorite = () => {
     const newFavoriteStatus = !localIsFavorite;
@@ -30,33 +88,35 @@ export default function ArticleCard({
   };
 
   return (
-    <div className="article-card">
-      <h2>{article.title}</h2>
-      <p>{article.description}</p>
-      <p>
+    <Card>
+      <FavoriteButton isfavorite={localIsFavorite} onClick={toggleFavorite}>
+        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </FavoriteButton>
+      <Title>{article.title}</Title>
+      <Description>{article.description}</Description>
+      <Author>
         <strong>Author:</strong> {article.author}
-      </p>
-      <p>
+      </Author>
+      {/* <Source>
+        <strong>Source:</strong> {article.source.name}
+      </Source> */}
+      <PublishedAt>
         <strong>Published At:</strong>{" "}
         {new Date(article.publishedAt).toLocaleString()}
-      </p>
+      </PublishedAt>
       {article.urlToImage && (
         <Image
           unoptimized={customLoader}
           src={article.urlToImage}
           alt={article.title}
+          layout="responsive"
           width={700} // Adjust width as needed
           height={400} // Adjust height as needed
         />
       )}
-      <p>
-        <a href={article.url} target="_blank" rel="noopener noreferrer">
-          Read more
-        </a>
-      </p>
-      <button onClick={toggleFavorite}>
-        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
-      </button>
-    </div>
+      <ReadMore href={article.url} target="_blank" rel="noopener noreferrer">
+        Read more
+      </ReadMore>
+    </Card>
   );
 }

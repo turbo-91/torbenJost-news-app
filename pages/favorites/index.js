@@ -6,6 +6,7 @@ export default function Favorites() {
   return (
     <>
       <h1>favorites</h1>
+      <Link href={`/login`}>back</Link>
       <FavoritesList />
       <Link href={`/login`}>back</Link>
     </>

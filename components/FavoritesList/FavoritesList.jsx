@@ -48,7 +48,7 @@ const FavoritesList = () => {
           <ArticleCard
             key={index}
             article={article}
-            isFavorite={
+            isfavorite={
               localStorage.getItem(article.title) === JSON.stringify(article)
             }
             onRemoveFromFavorites={() => handleRemoveFromFavorites(article)}
