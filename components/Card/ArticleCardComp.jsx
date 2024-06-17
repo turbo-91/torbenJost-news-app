@@ -18,8 +18,10 @@ const Card = styled.div`
 `;
 
 const Title = styled.h2`
+  font-family: Garamond, Georgie, Times New Roman;
   font-size: 1.5rem;
   margin-bottom: 8px;
+  color: #001233;
 `;
 
 const Description = styled.p`
