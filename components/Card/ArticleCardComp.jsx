@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 // bypass next/Image components domain restriction! Caution! Security concern.
 const customLoader = ({ src }) => {
@@ -9,51 +10,40 @@ const customLoader = ({ src }) => {
 
 const Card = styled.div`
   position: relative;
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin: 16px 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 `;
 
 const Title = styled.h2`
   font-family: Garamond, Georgie, Times New Roman;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 8px;
   color: #001233;
+  text-align: justify;
 `;
 
 const Description = styled.p`
+  color: black;
   margin: 8px 0;
+  text-align: justify;
 `;
 
 const Author = styled.p`
   margin: 8px 0;
-  font-weight: bold;
+  color: black;
 `;
 
 const Source = styled.p`
+  color: black;
   margin: 8px 0;
 `;
 
 const PublishedAt = styled.p`
+  color: black;
   margin: 8px 0;
 `;
 
-const ReadMore = styled.a`
-  display: inline-block;
-  margin-top: 12px;
-  color: #0070f3;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const FavoriteButton = styled.button`
-  background-color: ${(props) => (props.isfavorite ? "#ff0000" : "#0070f3")};
+  background-color: ${(props) => (props.isfavorite ? "#ff0000" : "#11009e")};
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -91,22 +81,7 @@ export default function ArticleCard({
 
   return (
     <Card>
-      <FavoriteButton isfavorite={localIsFavorite} onClick={toggleFavorite}>
-        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
-      </FavoriteButton>
-      <Title>{article.title}</Title>
-      <Description>{article.description}</Description>
-      <Author>
-        <strong>Author:</strong> {article.author}
-      </Author>
-      {/* <Source>
-        <strong>Source:</strong> {article.source.name}
-      </Source> */}
-      <PublishedAt>
-        <strong>Published At:</strong>{" "}
-        {new Date(article.publishedAt).toLocaleString()}
-      </PublishedAt>
-      {article.urlToImage && (
+      {article.urlToImage ? (
         <Image
           unoptimized={customLoader}
           src={article.urlToImage}
@@ -115,10 +90,40 @@ export default function ArticleCard({
           width={700} // Adjust width as needed
           height={400} // Adjust height as needed
         />
+      ) : (
+        <Image
+          unoptimized={customLoader}
+          src="https://cdn.pixabay.com/photo/2017/09/18/17/32/smilie-2762568_1280.png"
+          alt="Default Image"
+          layout="responsive"
+          width={700} // Adjust width as needed
+          height={400} // Adjust height as needed
+        />
       )}
-      <ReadMore href={article.url} target="_blank" rel="noopener noreferrer">
-        Read more
-      </ReadMore>
+
+      <FavoriteButton isfavorite={localIsFavorite} onClick={toggleFavorite}>
+        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </FavoriteButton>
+      <Link href={article.url} style={{ textDecoration: "none" }}>
+        <Title>{article.title}</Title>
+      </Link>
+      <Link href={article.url} style={{ textDecoration: "none" }}>
+        <Description>{article.description}</Description>
+      </Link>
+      <Link href={article.url} style={{ textDecoration: "none" }}>
+        <Author>
+          <strong>Author:</strong> {article.author}
+        </Author>
+      </Link>
+      <Link href={article.url} style={{ textDecoration: "none" }}>
+        <PublishedAt>
+          <strong>Published At:</strong>{" "}
+          {new Date(article.publishedAt).toLocaleString()}
+        </PublishedAt>
+      </Link>
+      {/* <Source>
+        <strong>Source:</strong> {article.source.name}
+      </Source> */}
     </Card>
   );
 }

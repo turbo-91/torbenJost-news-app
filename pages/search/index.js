@@ -18,7 +18,7 @@ export default function SearchPage() {
   const isLoading = !error && !data && !!url;
   const handleSearch = () => {
     setUrl(
-      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
   return (

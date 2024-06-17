@@ -1,4 +1,31 @@
 import React from "react";
+import styled from "styled-components";
+
+const DropdownContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const DropdownWrapper = styled.div`
+  border: 0.8px solid #001233;
+  border-radius: 3px;
+  background-color: #white;
+`;
+
+const Dropdown = styled.select`
+  width: 100%;
+  padding: 4px;
+  border: none;
+  border-radius: 3px;
+  background-color: white;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: #0070f3;
+  }
+`;
 
 export default function CountryDropdown({ countryValue, setCountryValue }) {
   const options = [
@@ -61,17 +88,18 @@ export default function CountryDropdown({ countryValue, setCountryValue }) {
   function handleSelect(event) {
     setCountryValue(event.target.value);
   }
+
   return (
-    <div className="flex justify-content-center mt-5">
-      <div className="w-50 p-3 border rounded">
-        <select className="form-select" onChange={handleSelect}>
+    <DropdownContainer>
+      <DropdownWrapper>
+        <Dropdown value={countryValue} onChange={handleSelect}>
           {options.map((option) => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>
           ))}
-        </select>
-      </div>
-    </div>
+        </Dropdown>
+      </DropdownWrapper>
+    </DropdownContainer>
   );
 }
