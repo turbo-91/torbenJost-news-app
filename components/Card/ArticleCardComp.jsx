@@ -64,7 +64,7 @@ const FavoriteButton = styled.button`
 `;
 
 const StyledStrong = styled.strong`
-  color: #001233;
+  color: #11009e;
 `;
 
 export default function ArticleCard({ article }) {
