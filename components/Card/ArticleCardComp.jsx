@@ -11,11 +11,12 @@ const customLoader = ({ src }) => {
 const Card = styled.div`
   position: relative;
   background-color: #fff;
+  padding: 1rem;
 `;
 
 const Title = styled.h2`
-  font-family: Garamond, Georgie, Times New Roman;
-  font-size: 1.3rem;
+  font-family: Bookman, Garamond, Georgia;
+  font-size: 1.3em;
   margin-bottom: 8px;
   color: #001233;
   text-align: justify;
@@ -25,34 +26,40 @@ const Description = styled.p`
   color: black;
   margin: 8px 0;
   text-align: justify;
+  font-size: 1em;
+  font-family: Helvetica, Arial;
 `;
 
 const Author = styled.p`
   margin: 8px 0;
   color: black;
+  font-family: Helvetica, Arial;
 `;
 
 const Source = styled.p`
   color: black;
   margin: 8px 0;
+  font-family: Helvetica, Arial;
 `;
 
 const PublishedAt = styled.p`
   color: black;
   margin: 8px 0;
+  font-family: Helvetica, Arial;
 `;
 
 const FavoriteButton = styled.button`
-  background-color: ${(props) => (props.isfavorite ? "#ff0000" : "#11009e")};
+  background-color: #11009e;
   color: #fff;
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
   cursor: pointer;
   margin-top: 12px;
+  font-family: Helvetica, Arial;
 
   &:hover {
-    background-color: ${(props) => (props.isfavorite ? "#cc0000" : "#005bb5")};
+    opacity: 80%;
   }
 `;
 
@@ -60,29 +67,7 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-export default function ArticleCard({
-  article,
-  isfavorite,
-  onRemoveFromFavorites,
-}) {
-  const [localIsFavorite, setLocalIsFavorite] = useState(isfavorite);
-
-  const toggleFavorite = () => {
-    const newFavoriteStatus = !localIsFavorite;
-    setLocalIsFavorite(newFavoriteStatus);
-
-    // Serialize the entire article object to store in localStorage
-    if (newFavoriteStatus) {
-      localStorage.setItem(article.title, JSON.stringify(article));
-    } else {
-      localStorage.removeItem(article.title);
-      // Trigger removal from FavoritesList component
-      if (typeof onRemoveFromFavorites === "function") {
-        onRemoveFromFavorites();
-      }
-    }
-  };
-
+export default function ArticleCard({ article }) {
   return (
     <Card>
       {article.urlToImage ? (
@@ -105,9 +90,7 @@ export default function ArticleCard({
         />
       )}
 
-      <FavoriteButton isfavorite={localIsFavorite} onClick={toggleFavorite}>
-        {localIsFavorite ? "Remove from Favorites" : "Add to Favorites"}
-      </FavoriteButton>
+      <FavoriteButton>Fave</FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>
@@ -125,9 +108,11 @@ export default function ArticleCard({
           {new Date(article.publishedAt).toLocaleString()}
         </PublishedAt>
       </Link>
-      {/* <Source>
-        <strong>Source:</strong> {article.source.name}
-      </Source> */}
+      <Link href={article.url} style={{ textDecoration: "none" }}>
+        <PublishedAt>
+          <StyledStrong>Source:</StyledStrong> {article.source.name}
+        </PublishedAt>
+      </Link>
     </Card>
   );
 }

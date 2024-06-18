@@ -40,7 +40,7 @@ export default function LoginPage() {
       <Content>
         <LoginButton />
         {session && (
-          <Link href={`/favorites`}>
+          <Link href={`/user-area/favorites`}>
             <StyledLink>See your favorite articles</StyledLink>
           </Link>
         )}
