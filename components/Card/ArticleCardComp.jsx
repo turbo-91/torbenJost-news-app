@@ -56,6 +56,10 @@ const FavoriteButton = styled.button`
   }
 `;
 
+const StyledStrong = styled.strong`
+  color: #001233;
+`;
+
 export default function ArticleCard({
   article,
   isfavorite,
@@ -112,12 +116,12 @@ export default function ArticleCard({
       </Link>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Author>
-          <strong>Author:</strong> {article.author}
+          <StyledStrong>Author:</StyledStrong> {article.author}
         </Author>
       </Link>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <PublishedAt>
-          <strong>Published At:</strong>{" "}
+          <StyledStrong>Published At:</StyledStrong>{" "}
           {new Date(article.publishedAt).toLocaleString()}
         </PublishedAt>
       </Link>

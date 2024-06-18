@@ -1,29 +1,39 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import newsAppLogo from "/public/news-app-logo.png";
 
 // Styled components
 const Header = styled.header`
-  //   position: fixed;
+  margin-top: 20px;
   width: 100%;
   height: 10vh;
-  top: 0;
-  background-color: #343a40;
-  padding: 10px 20px;
+  top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  //   z-index: 1000; // Ensures the header is on top of other content
 `;
 
-const Title = styled.h1`
-  color: #fff;
-  font-size: 1.5rem;
+const LogoContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  //   overflow: hidden;
 `;
 
 export default function HeaderComp() {
   return (
     <Header>
-      <Title>News App</Title>
+      <LogoContainer>
+        <Image
+          src={newsAppLogo}
+          alt="News App Logo"
+          layout="responsive"
+          objectFit="cover"
+          objectPosition="center"
+        />
+      </LogoContainer>
     </Header>
   );
 }

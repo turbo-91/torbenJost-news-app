@@ -2,7 +2,6 @@ import ArticleCard from "@/components/Card/ArticleCardComp";
 import SearchBar from "@/components/SearchBar/SearchBarComp";
 import useSWR from "swr";
 import { useState } from "react";
-import HeaderComp from "@/components/HeaderComp/Header";
 
 export default function SearchPage() {
   // States to store date range & language dropdown value
@@ -23,7 +22,6 @@ export default function SearchPage() {
   };
   return (
     <>
-      {/* <HeaderComp /> */}
       <SearchBar
         dateRangeFrom={dateRangeFrom}
         setDateRangeFrom={setDateRangeFrom}
