@@ -54,7 +54,7 @@ const NavigationButtons = styled.div`
   }
 `;
 
-export default function HomePage() {
+export default function HomePage({ favorites, toggleFavorite }) {
   // Data fetching
   const [url, setUrl] = useState(null);
   const [countryValue, setCountryValue] = useState("");
@@ -111,7 +111,11 @@ export default function HomePage() {
           <Slider ref={sliderRef} {...settings}>
             {data.articles.map((article, index) => (
               <div key={index}>
-                <ArticleCard article={article} />
+                <ArticleCard
+                  article={article}
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                />
               </div>
             ))}
           </Slider>

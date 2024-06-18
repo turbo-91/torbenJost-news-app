@@ -31,7 +31,7 @@ const StyledLink = styled.a`
   }
 `;
 
-export default function LoginPage() {
+export default function LoginPage({ favorites, toggleFavorite }) {
   const { data: session, status } = useSession();
 
   return (

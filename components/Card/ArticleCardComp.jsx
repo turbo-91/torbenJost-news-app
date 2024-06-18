@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
 import Link from "next/link";
 
-// bypass next/Image components domain restriction! Caution! Security concern.
 const customLoader = ({ src }) => {
   return src;
 };
@@ -36,20 +34,14 @@ const Author = styled.p`
   font-family: Helvetica, Arial;
 `;
 
-const Source = styled.p`
-  color: black;
-  margin: 8px 0;
-  font-family: Helvetica, Arial;
-`;
-
 const PublishedAt = styled.p`
-  color: black;
   margin: 8px 0;
+  color: black;
   font-family: Helvetica, Arial;
 `;
 
 const FavoriteButton = styled.button`
-  background-color: #11009e;
+  background-color: ${({ isFavorite }) => (isFavorite ? "#ff0000" : "#11009e")};
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -59,7 +51,7 @@ const FavoriteButton = styled.button`
   font-family: Helvetica, Arial;
 
   &:hover {
-    opacity: 80%;
+    opacity: 0.8;
   }
 `;
 
@@ -67,7 +59,13 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article, favorites, toggleFavorite }) {
+  const isFavorite = favorites.some((fav) => fav._id === article._id);
+
+  const handleToggleFavorite = async () => {
+    await toggleFavorite(article);
+  };
+
   return (
     <Card>
       {article.urlToImage ? (
@@ -90,7 +88,9 @@ export default function ArticleCard({ article }) {
         />
       )}
 
-      <FavoriteButton>Fave</FavoriteButton>
+      <FavoriteButton isFavorite={isFavorite} onClick={handleToggleFavorite}>
+        {isFavorite ? "Unfavorite" : "Favorite"}
+      </FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>

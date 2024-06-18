@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar/SearchBarComp";
 import useSWR from "swr";
 import { useState } from "react";
 
-export default function SearchPage() {
+export default function SearchPage({ favorites, toggleFavorite }) {
   // States to store date range & language dropdown value
   const [dateRangeFrom, setDateRangeFrom] = useState("");
   const [dateRangeTo, setDateRangeTo] = useState("");
@@ -38,7 +38,12 @@ export default function SearchPage() {
       {data && data.articles && (
         <div>
           {data.articles.map((article, index) => (
-            <ArticleCard key={index} article={article} />
+            <ArticleCard
+              key={index}
+              article={article}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+            />
           ))}
         </div>
       )}

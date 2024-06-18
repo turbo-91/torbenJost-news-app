@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ArticleCard from "../Card/ArticleCardComp";
 import useSWR from "swr";
 
-const FavoritesList = () => {
+const FavoritesList = ({ favorites, toggleFavorite }) => {
   const { data, isLoading } = useSWR("/api/favorites");
 
   if (isLoading) {
@@ -22,10 +22,8 @@ const FavoritesList = () => {
           <ArticleCard
             key={article._id}
             article={article}
-            isfavorite={
-              localStorage.getItem(article.title) === JSON.stringify(article)
-            }
-            onRemoveFromFavorites={() => handleRemoveFromFavorites(article)}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
           />
         ))
       )}
