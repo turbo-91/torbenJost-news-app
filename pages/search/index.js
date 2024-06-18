@@ -2,7 +2,6 @@ import ArticleCard from "@/components/Card/ArticleCardComp";
 import SearchBar from "@/components/SearchBar/SearchBarComp";
 import useSWR from "swr";
 import { useState } from "react";
-import FavoritesList from "@/components/FavoritesList/FavoritesList";
 
 export default function SearchPage() {
   // States to store date range & language dropdown value
@@ -18,12 +17,11 @@ export default function SearchPage() {
   const isLoading = !error && !data && !!url;
   const handleSearch = () => {
     setUrl(
-      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
   return (
     <>
-      <h1>NEWS APP</h1>
       <SearchBar
         dateRangeFrom={dateRangeFrom}
         setDateRangeFrom={setDateRangeFrom}

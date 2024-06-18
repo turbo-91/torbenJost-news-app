@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import ArticleCard from "@/components/Card/ArticleCardComp";
 import useSWR from "swr";
 import Slider from "react-slick";
@@ -6,6 +7,52 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
+import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
+
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+const LoadingMessage = styled.p`
+  text-align: center;
+  font-style: italic;
+`;
+
+const ErrorMessage = styled.p`
+  text-align: center;
+  color: red;
+`;
+
+const SliderContainer = styled.div`
+  margin-top: 5px;
+`;
+
+const CountryDropdownContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const NavigationButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+
+  button {
+    margin: 0;
+    padding: 0px;
+    background-color: white;
+    color: none;
+    border: none;
+    border-radius: 0px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 80%;
+    }
+  }
+`;
 
 export default function HomePage() {
   // Data fetching
@@ -18,15 +65,9 @@ export default function HomePage() {
   const handleCountryChange = (value) => {
     setCountryValue(value);
     setUrl(
-      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
-
-  // console.log data whenever it changes (country dropdown)
-  useEffect(() => {
-    // Log data whenever it changes
-    console.log("Fetched data:", data);
-  }, [data]);
 
   // Slider functionality
   const sliderRef = useRef(null);
@@ -39,25 +80,34 @@ export default function HomePage() {
   };
 
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    adaptiveHeight: true,
   };
 
   return (
-    <div>
-      <h1>Top Headlines</h1>
-      <p>from:</p>
-      <CountryDropdown
-        countryValue={countryValue}
-        setCountryValue={handleCountryChange}
-      />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Failed to load data</p>}
+    <Container>
+      {/* <Headline>Top Headlines</Headline> */}
+      <CountryDropdownContainer>
+        <CountryDropdown
+          countryValue={countryValue}
+          setCountryValue={handleCountryChange}
+        />
+      </CountryDropdownContainer>
+      <NavigationButtons>
+        <button onClick={previous}>
+          <CircleArrowLeft color="#001233" strokeWidth={1} />
+        </button>
+        <button onClick={next}>
+          <CircleArrowRight color="#001233" strokeWidth={1} />
+        </button>
+      </NavigationButtons>
+      {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
+      {error && <ErrorMessage>Failed to load data</ErrorMessage>}
       {data && data.articles && (
-        <div className="slider-container">
+        <SliderContainer>
           <Slider ref={sliderRef} {...settings}>
             {data.articles.map((article, index) => (
               <div key={index}>
@@ -65,16 +115,8 @@ export default function HomePage() {
               </div>
             ))}
           </Slider>
-          <div style={{ textAlign: "center" }}>
-            <button className="button" onClick={previous}>
-              Previous
-            </button>
-            <button className="button" onClick={next}>
-              Next
-            </button>
-          </div>
-        </div>
+        </SliderContainer>
       )}
-    </div>
+    </Container>
   );
 }
