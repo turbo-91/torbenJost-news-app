@@ -1,6 +1,6 @@
-import HeaderComp from "@/components/HeaderComp/Header";
-import Layout from "@/components/LayoutComp/LayoutComp";
 import GlobalStyle from "@/styles/styles";
+import Layout from "@/components/LayoutComp/LayoutComp";
+
 import { SessionProvider } from "next-auth/react";
 
 export default function App({
@@ -11,10 +11,10 @@ export default function App({
     <>
       <GlobalStyle />
       <SessionProvider session={session}>
-        <HeaderComp />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
-      <Layout />
     </>
   );
 }

@@ -7,6 +7,7 @@ import styled from "styled-components";
 const NavBar = styled.footer`
   position: fixed;
   width: 100%;
+  height: 10vh;
   bottom: 0;
   background-color: #343a40;
   padding: 10px 20px;
