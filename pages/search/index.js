@@ -19,6 +19,7 @@ export default function SearchPage({ favorites, toggleFavorite }) {
     setUrl(
       `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
+    console.log("state nach suchanfrage", favorites);
   };
   return (
     <>
@@ -40,6 +41,7 @@ export default function SearchPage({ favorites, toggleFavorite }) {
           {data.articles.map((article, index) => (
             <ArticleCard
               key={index}
+              articleId={article.id}
               article={article}
               favorites={favorites}
               toggleFavorite={toggleFavorite}

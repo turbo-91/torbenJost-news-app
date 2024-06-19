@@ -41,7 +41,7 @@ const PublishedAt = styled.p`
 `;
 
 const FavoriteButton = styled.button`
-  background-color: ${({ isFavorite }) => (isFavorite ? "#ff0000" : "#11009e")};
+  background-color: #11009e;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -60,8 +60,9 @@ const StyledStrong = styled.strong`
 `;
 
 export default function ArticleCard({ article, favorites, toggleFavorite }) {
-  const isFavorite = favorites.some((fav) => fav._id === article._id);
-
+  const isfavorite = favorites.some((fav) => fav.url === article.url);
+  console.log("aritkel nach button klick in state favorites", favorites);
+  console.log("ist die ID im article objekt", article._id);
   const handleToggleFavorite = async () => {
     await toggleFavorite(article);
   };
@@ -88,8 +89,11 @@ export default function ArticleCard({ article, favorites, toggleFavorite }) {
         />
       )}
 
-      <FavoriteButton isFavorite={isFavorite} onClick={handleToggleFavorite}>
-        {isFavorite ? "Unfavorite" : "Favorite"}
+      <FavoriteButton
+        isfavorite={isfavorite.toString()}
+        onClick={handleToggleFavorite}
+      >
+        {isfavorite ? "Unfavorite" : "Favorite"}
       </FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>

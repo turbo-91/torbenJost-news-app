@@ -1,6 +1,6 @@
 import GlobalStyle from "@/styles/styles";
 import Layout from "@/components/LayoutComp/LayoutComp";
-import { useRouter } from "next/router";
+
 import { SWRConfig } from "swr";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -14,10 +14,9 @@ export default function App({
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    // Fetch favorites or any initial data here
     async function fetchFavorites() {
       try {
-        const response = await fetch("/api/favorites"); // Example endpoint to fetch favorites
+        const response = await fetch("/api/favorites"); // endpoint to fetch favorites
         if (response.ok) {
           const data = await response.json();
           setFavorites(data);
@@ -30,11 +29,12 @@ export default function App({
     }
 
     fetchFavorites();
-  }, []); // Empty dependency array means this effect runs only once on mount
+  }, []);
 
   const toggleFavorite = async (article) => {
+    console.log("ich passiere");
     const isCurrentlyFavorited = favorites.some(
-      (fav) => fav._id === article._id
+      (fav) => fav.url === article.url
     );
 
     if (isCurrentlyFavorited) {
@@ -43,7 +43,7 @@ export default function App({
       });
 
       if (response.ok) {
-        setFavorites(favorites.filter((fav) => fav._id !== article._id));
+        setFavorites(favorites.filter((fav) => fav.url !== article.url));
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -62,7 +62,6 @@ export default function App({
     }
   };
 
-  const router = useRouter();
   return (
     <>
       <GlobalStyle />

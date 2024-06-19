@@ -20,7 +20,8 @@ const FavoritesList = ({ favorites, toggleFavorite }) => {
       ) : (
         data.map((article, index) => (
           <ArticleCard
-            key={article._id}
+            key={index}
+            articleId={article._id}
             article={article}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
