@@ -31,7 +31,7 @@ const NavLink = styled(({ active, ...rest }) => <Link {...rest} />)`
 
   ${({ active }) =>
     active &&
-    css`
+    `
       color: #001233;
       font-weight: bold;
     `}

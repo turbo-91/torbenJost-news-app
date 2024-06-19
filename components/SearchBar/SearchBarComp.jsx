@@ -32,7 +32,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #11009e;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -41,7 +41,7 @@ const Button = styled.button`
   align-self: flex-start;
 
   &:hover {
-    background-color: #0056b3;
+    opacity: 80%;
   }
 `;
 

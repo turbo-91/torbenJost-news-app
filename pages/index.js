@@ -54,20 +54,20 @@ const NavigationButtons = styled.div`
   }
 `;
 
-export default function HomePage() {
+export default function HomePage({ favorites, toggleFavorite }) {
   // Data fetching
   const [url, setUrl] = useState(null);
   const [countryValue, setCountryValue] = useState("");
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, error } = useSWR(url, fetcher, { shouldRetryOnError: false });
   const isLoading = !error && !data && !!url;
-
   const handleCountryChange = (value) => {
     setCountryValue(value);
     setUrl(
       `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
+  // console.log("data object headline fetch", data);
 
   // Slider functionality
   const sliderRef = useRef(null);
@@ -111,7 +111,13 @@ export default function HomePage() {
           <Slider ref={sliderRef} {...settings}>
             {data.articles.map((article, index) => (
               <div key={index}>
-                <ArticleCard article={article} />
+                <ArticleCard
+                  key={index}
+                  articleId={article._id}
+                  article={article}
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                />
               </div>
             ))}
           </Slider>

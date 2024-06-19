@@ -1,12 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
 import Link from "next/link";
-
-// bypass next/Image components domain restriction! Caution! Security concern.
-const customLoader = ({ src }) => {
-  return src;
-};
+import { useState } from "react";
 
 const Card = styled.div`
   position: relative;
@@ -36,15 +31,9 @@ const Author = styled.p`
   font-family: Helvetica, Arial;
 `;
 
-const Source = styled.p`
-  color: black;
-  margin: 8px 0;
-  font-family: Helvetica, Arial;
-`;
-
 const PublishedAt = styled.p`
-  color: black;
   margin: 8px 0;
+  color: black;
   font-family: Helvetica, Arial;
 `;
 
@@ -59,7 +48,7 @@ const FavoriteButton = styled.button`
   font-family: Helvetica, Arial;
 
   &:hover {
-    opacity: 80%;
+    opacity: 0.8;
   }
 `;
 
@@ -67,7 +56,26 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article, favorites, toggleFavorite }) {
+  const isfavorite = favorites.some((fav) => fav.url === article.url);
+  const sanitizeString = (str) => {
+    // Replace non-alphanumeric characters with an empty string
+    return str.replace(/[^a-zA-Z0-9]/g, "");
+  };
+  const articleWithId = { ...article, articleId: sanitizeString(article.url) };
+  console.log("articleId ist url ohne leer oder sonderzeichen", articleWithId);
+  const customLoader = ({ src }) => {
+    return src;
+  };
+
+  const handleToggleFavorite = async () => {
+    console.log(
+      "artikel mit ID in handleToggleFavorite verfügbar?",
+      articleWithId
+    );
+    await toggleFavorite(articleWithId);
+  };
+
   return (
     <Card>
       {article.urlToImage ? (
@@ -90,7 +98,12 @@ export default function ArticleCard({ article }) {
         />
       )}
 
-      <FavoriteButton>Fave</FavoriteButton>
+      <FavoriteButton
+        isfavorite={isfavorite.toString()}
+        onClick={handleToggleFavorite}
+      >
+        {isfavorite ? "Unfavorite" : "Favorite"}
+      </FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>
