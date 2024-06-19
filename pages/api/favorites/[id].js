@@ -3,10 +3,10 @@ import Favorite from "@/db/models/Favorite";
 
 export default async function handler(request, response) {
   await dbConnect();
-  const { _id } = request.query;
+  const { id } = request.query;
 
   if (request.method === "GET") {
-    const faveArticle = await Favorite.findById(_id);
+    const faveArticle = await Favorite.findById(id);
 
     if (!faveArticle) {
       return response.status(404).json({ status: "Not Found" });
@@ -16,7 +16,7 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "DELETE") {
-    await Favorite.findByIdAndDelete(_id);
+    await Favorite.findByIdAndDelete(id);
 
     response.status(200).json({ status: "Favorite successfully deleted." });
   }

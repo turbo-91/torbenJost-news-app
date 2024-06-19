@@ -31,19 +31,20 @@ export default function App({
     fetchFavorites();
   }, []);
 
-  const toggleFavorite = async (article) => {
+  const toggleFavorite = async (articleWithId) => {
     console.log("ich passiere");
-    const isCurrentlyFavorited = favorites.some(
-      (fav) => fav.url === article.url
-    );
+    const isfavorite = favorites.some((fav) => fav.url === articleWithId.url);
 
-    if (isCurrentlyFavorited) {
-      const response = await fetch(`/api/favorites/${article._id}`, {
-        method: "DELETE",
-      });
+    if (isfavorite) {
+      const response = await fetch(
+        `/api/favorites/${articleWithId.articleId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
-        setFavorites(favorites.filter((fav) => fav.url !== article.url));
+        setFavorites(favorites.filter((fav) => fav.url !== articleWithId.url));
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -51,11 +52,11 @@ export default function App({
       const response = await fetch("/api/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(article),
+        body: JSON.stringify(articleWithId),
       });
 
       if (response.ok) {
-        setFavorites([...favorites, article]);
+        setFavorites([...favorites, articleWithId]);
       } else {
         console.error(`Error: ${response.status}`);
       }

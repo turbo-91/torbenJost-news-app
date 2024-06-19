@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-
-const customLoader = ({ src }) => {
-  return src;
-};
+import { useState } from "react";
 
 const Card = styled.div`
   position: relative;
@@ -61,10 +58,22 @@ const StyledStrong = styled.strong`
 
 export default function ArticleCard({ article, favorites, toggleFavorite }) {
   const isfavorite = favorites.some((fav) => fav.url === article.url);
-  console.log("aritkel nach button klick in state favorites", favorites);
-  console.log("ist die ID im article objekt", article._id);
+  const sanitizeString = (str) => {
+    // Replace non-alphanumeric characters with an empty string
+    return str.replace(/[^a-zA-Z0-9]/g, "");
+  };
+  const articleWithId = { ...article, articleId: sanitizeString(article.url) };
+  console.log("articleId ist url ohne leer oder sonderzeichen", articleWithId);
+  const customLoader = ({ src }) => {
+    return src;
+  };
+
   const handleToggleFavorite = async () => {
-    await toggleFavorite(article);
+    console.log(
+      "artikel mit ID in handleToggleFavorite verfügbar?",
+      articleWithId
+    );
+    await toggleFavorite(articleWithId);
   };
 
   return (

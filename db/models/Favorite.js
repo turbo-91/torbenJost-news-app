@@ -7,6 +7,7 @@ const favoriteSchema = new Schema({
     id: { type: String },
     name: { type: String },
   },
+  articleId: { type: String },
   author: { type: String },
   title: { type: String, required: true },
   description: { type: String },
