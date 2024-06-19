@@ -68,6 +68,7 @@ const StyledStrong = styled.strong`
 `;
 
 export default function ArticleCard({ article }) {
+  console.log("article from database in ArticleCard", article);
   return (
     <Card>
       {article.urlToImage ? (

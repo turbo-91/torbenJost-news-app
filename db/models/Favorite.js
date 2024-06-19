@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
+
 const favoriteSchema = new Schema({
+  // id: { type: String },
   source: {
     id: { type: String },
     name: { type: String },
@@ -12,7 +15,6 @@ const favoriteSchema = new Schema({
   urlToImage: { type: String },
   publishedAt: { type: Date, required: true },
   content: { type: String },
-  articleId: { type: String },
 });
 const Favorite =
   mongoose.models.Favorite || mongoose.model("Favorite", favoriteSchema);
