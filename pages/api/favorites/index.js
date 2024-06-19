@@ -11,4 +11,15 @@ export default async function handler(request, response) {
     }
     response.status(200).json(favorites);
   }
+  if (request.method === "POST") {
+    try {
+      const favoriteData = request.body;
+      await Favorite.create(favoriteData);
+
+      response.status(201).json({ status: "Favorite created" });
+    } catch (e) {
+      console.error("Error in POST in /", e);
+      response.status(400).json({ error: error.message });
+    }
+  }
 }

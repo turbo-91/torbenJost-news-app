@@ -3,11 +3,6 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 
-// bypass next/Image components domain restriction! Caution! Security concern.
-const customLoader = ({ src }) => {
-  return src;
-};
-
 const Card = styled.div`
   position: relative;
   background-color: #fff;
@@ -67,8 +62,40 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-export default function ArticleCard({ article }) {
-  console.log("article from database in ArticleCard", article);
+export default function ArticleCard({ article, favorites, setFavorites }) {
+  // bypass next/Image components domain restriction! Caution! Security concern.
+  const customLoader = ({ src }) => {
+    return src;
+  };
+
+  async function toggleFavorite(thisArticle) {
+    const isFavorite = (article) => {
+      return favorites.some((favorite) => favorite.url === article.url);
+    };
+    const sanitizeString = (str) => str.replace(/[^a-zA-Z0-9]/g, "");
+    const articleWithId = {
+      ...article,
+      articleId: sanitizeString(article.url),
+    };
+    console.log(
+      "there is a new article object now with an articleId",
+      articleWithId
+    );
+    if (!isFavorite(article)) {
+      const response = await fetch("/api/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(article),
+      });
+
+      if (response.ok) {
+        setFavorites([...favorites, articleWithId]);
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+    }
+  }
+
   return (
     <Card>
       {article.urlToImage ? (
@@ -91,7 +118,7 @@ export default function ArticleCard({ article }) {
         />
       )}
 
-      <FavoriteButton>Fave</FavoriteButton>
+      <FavoriteButton onClick={toggleFavorite}>Fave</FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>

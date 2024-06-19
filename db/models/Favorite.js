@@ -15,6 +15,7 @@ const favoriteSchema = new Schema({
   urlToImage: { type: String },
   publishedAt: { type: Date, required: true },
   content: { type: String },
+  articleId: { type: String },
 });
 const Favorite =
   mongoose.models.Favorite || mongoose.model("Favorite", favoriteSchema);
