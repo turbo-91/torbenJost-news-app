@@ -11,4 +11,9 @@ export default async function handler(request, response) {
     }
     response.status(200).json(favorite);
   }
+  if (request.method === "DELETE") {
+    await Favorite.findByIdAndDelete(id);
+
+    response.status(200).json({ status: "Favorite successfully deleted." });
+  }
 }
