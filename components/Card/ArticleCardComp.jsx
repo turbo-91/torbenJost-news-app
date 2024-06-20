@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Bookmark, BookmarkCheck, Star } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -71,20 +72,40 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
     return src;
   };
   const { mutate } = useSWR("/api/favorites");
-  const router = useRouter();
-  const { id } = router.query;
+  const { data: session } = useSession();
 
   const isFavorite = (article) => {
     return favorites.some((favorite) => favorite.url === article.url);
   };
   const favoriteId = findFavoriteIdByUrl(favorites, article);
+  const {
+    source: { id: sourceId, name: sourceName },
+    author,
+    title,
+    description,
+    url,
+    urlToImage,
+    publishedAt: content,
+    __v,
+  } = article;
+  const articleUserId = {
+    source: { id: sourceId, name: sourceName },
+    author,
+    title,
+    description,
+    url,
+    urlToImage,
+    publishedAt: content,
+    __v,
+    userId: session.user.userId,
+  };
 
   async function toggleFavorite() {
     if (!isFavorite(article)) {
       const response = await fetch("/api/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(article),
+        body: JSON.stringify(articleUserId),
       });
 
       if (response.ok) {
