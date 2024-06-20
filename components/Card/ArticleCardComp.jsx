@@ -5,11 +5,19 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { Bookmark, BookmarkCheck, Star } from "lucide-react";
+
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`;
 
 const Card = styled.div`
   position: relative;
   background-color: #fff;
   padding: 1rem;
+  overflow: hidden; /* Ensure the button doesn't overflow outside the card */
 `;
 
 const Title = styled.h2`
@@ -34,12 +42,6 @@ const Author = styled.p`
   font-family: Helvetica, Arial;
 `;
 
-const Source = styled.p`
-  color: black;
-  margin: 8px 0;
-  font-family: Helvetica, Arial;
-`;
-
 const PublishedAt = styled.p`
   color: black;
   margin: 8px 0;
@@ -47,24 +49,15 @@ const PublishedAt = styled.p`
 `;
 
 const FavoriteButton = styled.button`
-  background-color: #11009e;
-  color: #fff;
+  background-color: transparent;
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
+  padding: 0;
   cursor: pointer;
-  margin-top: 12px;
-  font-family: Helvetica, Arial;
-
-  &:hover {
-    opacity: 80%;
-  }
 `;
 
 const StyledStrong = styled.strong`
   color: #001233;
 `;
-
 function findFavoriteIdByUrl(favorites, article) {
   // Find the favorite object in favorites array that matches the current article's url
   const favorite = favorites.find((fav) => fav.url === article.url);
@@ -81,12 +74,12 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   const router = useRouter();
   const { id } = router.query;
 
-  async function toggleFavorite() {
-    const isFavorite = (article) => {
-      return favorites.some((favorite) => favorite.url === article.url);
-    };
-    const favoriteId = findFavoriteIdByUrl(favorites, article);
+  const isFavorite = (article) => {
+    return favorites.some((favorite) => favorite.url === article.url);
+  };
+  const favoriteId = findFavoriteIdByUrl(favorites, article);
 
+  async function toggleFavorite() {
     if (!isFavorite(article)) {
       const response = await fetch("/api/favorites", {
         method: "POST",
@@ -136,7 +129,20 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
         />
       )}
 
-      <FavoriteButton onClick={toggleFavorite}>Fave</FavoriteButton>
+      <FavoriteButton
+        onClick={toggleFavorite}
+        favorite={isFavorite(article).toString()}
+      >
+        {isFavorite(article) ? (
+          <IconWrapper>
+            <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />
+          </IconWrapper>
+        ) : (
+          <IconWrapper>
+            <Bookmark color="#FAF9F6" size={45} strokeWidth={1} />
+          </IconWrapper>
+        )}
+      </FavoriteButton>
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>
