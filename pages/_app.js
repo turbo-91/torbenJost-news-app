@@ -14,25 +14,27 @@ export default function App({
   ////////// favorite functionality ///////////
 
   const [favorites, setFavorites] = useState([]); // state to represent if an article is in the database or not
+  const [isLoading, setIsLoading] = useState(true);
 
-  ////// initial favorites fetch to determine what needs to be stored or taken down in/from state
   useEffect(() => {
     async function fetchFavorites() {
       try {
-        const response = await fetch("/api/favorites"); // endpoint to fetch favorites
+        const response = await fetch("/api/favorites");
         if (response.ok) {
           const data = await response.json();
-          setFavorites(data);
+          setFavorites(data); // Assuming data is an array of favorite articles
         } else {
-          console.error("Failed to fetch favorites:", response.status);
+          console.error(`Error: ${response.status}`);
         }
       } catch (error) {
-        console.error("Error fetching favorites:", error);
+        console.error("Fetch favorites error:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchFavorites();
-  }, []);
+  }, [favorites, setFavorites]); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <>

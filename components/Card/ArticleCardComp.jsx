@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import useSWR from "swr";
 
 const Card = styled.div`
   position: relative;
@@ -67,20 +70,14 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   const customLoader = ({ src }) => {
     return src;
   };
+  const { mutate } = useSWR("/api/favorites");
+  const router = useRouter();
+  const { id } = router.query;
 
-  async function toggleFavorite(thisArticle) {
+  async function toggleFavorite() {
     const isFavorite = (article) => {
       return favorites.some((favorite) => favorite.url === article.url);
     };
-    const sanitizeString = (str) => str.replace(/[^a-zA-Z0-9]/g, "");
-    const articleWithId = {
-      ...article,
-      articleId: sanitizeString(article.url),
-    };
-    console.log(
-      "there is a new article object now with an articleId",
-      articleWithId
-    );
     if (!isFavorite(article)) {
       const response = await fetch("/api/favorites", {
         method: "POST",
@@ -89,7 +86,18 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       });
 
       if (response.ok) {
-        setFavorites([...favorites, articleWithId]);
+        await response.json();
+        mutate();
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+    } else {
+      console.log("favorites before delete", favorites);
+      const response = await fetch(`/api/favorites/${article._id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        await response.json();
       } else {
         console.error(`Error: ${response.status}`);
       }
