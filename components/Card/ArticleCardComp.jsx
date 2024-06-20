@@ -65,6 +65,13 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
+function findFavoriteIdByUrl(favorites, article) {
+  // Find the favorite object in favorites array that matches the current article's url
+  const favorite = favorites.find((fav) => fav.url === article.url);
+  // If favorite is found, return its _id property; otherwise, return null or handle as needed
+  return favorite ? favorite._id : null;
+}
+
 export default function ArticleCard({ article, favorites, setFavorites }) {
   // bypass next/Image components domain restriction! Caution! Security concern.
   const customLoader = ({ src }) => {
@@ -78,6 +85,8 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
     const isFavorite = (article) => {
       return favorites.some((favorite) => favorite.url === article.url);
     };
+    const favoriteId = findFavoriteIdByUrl(favorites, article);
+
     if (!isFavorite(article)) {
       const response = await fetch("/api/favorites", {
         method: "POST",
@@ -93,7 +102,8 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       }
     } else {
       console.log("favorites before delete", favorites);
-      const response = await fetch(`/api/favorites/${article._id}`, {
+      console.log("article before delete", article);
+      const response = await fetch(`/api/favorites/${favoriteId}`, {
         method: "DELETE",
       });
       if (response.ok) {
