@@ -77,30 +77,30 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   const isFavorite = (article) => {
     return favorites.some((favorite) => favorite.url === article.url);
   };
-  const favoriteId = findFavoriteIdByUrl(favorites, article);
-  const {
-    source: { id: sourceId, name: sourceName },
-    author,
-    title,
-    description,
-    url,
-    urlToImage,
-    publishedAt: content,
-    __v,
-  } = article;
-  const articleUserId = {
-    source: { id: sourceId, name: sourceName },
-    author,
-    title,
-    description,
-    url,
-    urlToImage,
-    publishedAt: content,
-    __v,
-    userId: session.user.userId,
-  };
 
   async function toggleFavorite() {
+    const favoriteId = findFavoriteIdByUrl(favorites, article);
+    const {
+      source: { id: sourceId, name: sourceName },
+      author,
+      title,
+      description,
+      url,
+      urlToImage,
+      publishedAt: content,
+      __v,
+    } = article;
+    const articleUserId = {
+      source: { id: sourceId, name: sourceName },
+      author,
+      title,
+      description,
+      url,
+      urlToImage,
+      publishedAt: content,
+      __v,
+      userId: session.user.userId,
+    };
     if (!isFavorite(article)) {
       const response = await fetch("/api/favorites", {
         method: "POST",
@@ -111,6 +111,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       if (response.ok) {
         await response.json();
         mutate();
+        console.log("favorites state after mutate post", articles);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -122,6 +123,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       });
       if (response.ok) {
         await response.json();
+        console.log("favorites state after delete post", articles);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -150,20 +152,22 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
         />
       )}
 
-      <FavoriteButton
-        onClick={toggleFavorite}
-        favorite={isFavorite(article).toString()}
-      >
-        {isFavorite(article) ? (
-          <IconWrapper>
-            <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />
-          </IconWrapper>
-        ) : (
-          <IconWrapper>
-            <Bookmark color="#FAF9F6" size={45} strokeWidth={1} />
-          </IconWrapper>
-        )}
-      </FavoriteButton>
+      {session && (
+        <FavoriteButton
+          onClick={toggleFavorite}
+          favorite={isFavorite(article).toString()}
+        >
+          {isFavorite(article) ? (
+            <IconWrapper>
+              <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />
+            </IconWrapper>
+          ) : (
+            <IconWrapper>
+              <Bookmark color="#FAF9F6" size={45} strokeWidth={1} />
+            </IconWrapper>
+          )}
+        </FavoriteButton>
+      )}
       <Link href={article.url} style={{ textDecoration: "none" }}>
         <Title>{article.title}</Title>
       </Link>
