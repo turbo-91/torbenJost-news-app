@@ -72,12 +72,16 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   const customLoader = ({ src }) => {
     return src;
   };
+
+  // Data Fetching
+
   const { mutate } = useSWR("/api/favorites");
   const { data: session } = useSession();
 
   const isFavorite = (article) => {
     return favorites.some((favorite) => favorite.url === article.url);
   };
+  const router = useRouter();
 
   async function toggleFavorite() {
     const favoriteId = findFavoriteIdByUrl(favorites, article);
@@ -111,7 +115,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
 
       if (response.ok) {
         await response.json();
-        mutate();
+        mutate("api/favorites");
         console.log("favorites state after mutate post", favorites);
       } else {
         console.error(`Error: ${response.status}`);
@@ -125,6 +129,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       if (response.ok) {
         await response.json();
         console.log("favorites state after delete post", favorites);
+        mutate("api/favorites");
       } else {
         console.error(`Error: ${response.status}`);
       }

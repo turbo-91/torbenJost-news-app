@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import ArticleCard from "@/components/Card/ArticleCardComp";
 import useSWR from "swr";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef } from "react";
 import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
 import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
 
@@ -31,7 +30,14 @@ const SliderContainer = styled.div`
 
 const CountryDropdownContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  label {
+    margin-bottom: 10px;
+    color: #001233;
+  }
 `;
 
 const NavigationButtons = styled.div`
@@ -43,9 +49,7 @@ const NavigationButtons = styled.div`
     margin: 0;
     padding: 0px;
     background-color: white;
-    color: none;
     border: none;
-    border-radius: 0px;
     cursor: pointer;
 
     &:hover {
@@ -89,8 +93,8 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
 
   return (
     <Container>
-      {/* <Headline>Top Headlines</Headline> */}
       <CountryDropdownContainer>
+        <label htmlFor="country-select">Select a country:</label>
         <CountryDropdown
           countryValue={countryValue}
           setCountryValue={handleCountryChange}

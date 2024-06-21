@@ -29,6 +29,7 @@ const Dropdown = styled.select`
 
 export default function CountryDropdown({ countryValue, setCountryValue }) {
   const options = [
+    { label: "", value: "" },
     { label: "Argentina", value: "ar" },
     { label: "Australia", value: "au" },
     { label: "Austria", value: "at" },
@@ -92,7 +93,11 @@ export default function CountryDropdown({ countryValue, setCountryValue }) {
   return (
     <DropdownContainer>
       <DropdownWrapper>
-        <Dropdown value={countryValue} onChange={handleSelect}>
+        <Dropdown
+          key="country-select"
+          value={countryValue}
+          onChange={handleSelect}
+        >
           {options.map((option) => (
             <option value={option.value} key={option.value}>
               {option.label}
