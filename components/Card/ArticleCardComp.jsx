@@ -23,7 +23,7 @@ const Card = styled.div`
 `;
 
 const Title = styled.h2`
-  font-family: Bookman, Garamond, Georgia;
+  font-family: Bookman, Garamond, serif;
   font-size: 1.3em;
   margin-bottom: 8px;
   color: #001233;
@@ -35,7 +35,7 @@ const Description = styled.p`
   margin: 8px 0;
   text-align: justify;
   font-size: 1em;
-  font-family: Helvetica, Arial;
+  font-family: Helvetica, Arial, sans-serif;
 `;
 
 const Author = styled.p`
