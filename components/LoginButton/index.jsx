@@ -9,6 +9,7 @@ export default function LoginButton() {
     return (
       <>
         Hey there {session.user.name}! <br />
+        <p>Your userId is {session.user.userId}</p>
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );
