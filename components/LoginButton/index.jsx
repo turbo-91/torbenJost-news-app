@@ -6,13 +6,7 @@ import githubMark from "public/github-mark.png";
 export default function LoginButton() {
   const { data: session } = useSession();
   if (session) {
-    return (
-      <>
-        Hey there {session.user.name}! <br />
-        <p>Your userId is {session.user.userId}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
+    return <></>;
   }
   return (
     <>

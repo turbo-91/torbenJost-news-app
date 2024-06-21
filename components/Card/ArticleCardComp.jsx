@@ -42,12 +42,14 @@ const Author = styled.p`
   margin: 8px 0;
   color: black;
   font-family: Helvetica, Arial;
+  text-align: left; /* Align left */
 `;
 
 const PublishedAt = styled.p`
   color: black;
   margin: 8px 0;
   font-family: Helvetica, Arial;
+  text-align: left; /* Align left */
 `;
 
 const FavoriteButton = styled.button`
@@ -60,6 +62,7 @@ const FavoriteButton = styled.button`
 const StyledStrong = styled.strong`
   color: #001233;
 `;
+
 function findFavoriteIdByUrl(favorites, article) {
   // Find the favorite object in favorites array that matches the current article's url
   const favorite = favorites.find((fav) => fav.url === article.url);
