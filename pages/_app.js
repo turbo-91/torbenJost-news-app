@@ -34,7 +34,7 @@ export default function App({
     }
 
     fetchFavorites();
-  }, [favorites]);
+  }, []);
 
   return (
     <>

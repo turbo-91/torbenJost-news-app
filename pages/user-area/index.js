@@ -73,6 +73,7 @@ export default function LoginPage({ favorites, setFavorites }) {
         <LoginButton />
         {session && (
           <>
+            {session.user.userId}
             <UserSection>
               <ImageSection>
                 <CircularImage
