@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Bookmark, BookmarkCheck, Star } from "lucide-react";
 import { useSession } from "next-auth/react";
+import newsAppThumbnail from "/public/news-app-thumbnail.png";
 
 const IconWrapper = styled.div`
   position: absolute;
@@ -111,7 +112,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       if (response.ok) {
         await response.json();
         mutate();
-        console.log("favorites state after mutate post", articles);
+        console.log("favorites state after mutate post", favorites);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -123,7 +124,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       });
       if (response.ok) {
         await response.json();
-        console.log("favorites state after delete post", articles);
+        console.log("favorites state after delete post", favorites);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -144,7 +145,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       ) : (
         <Image
           unoptimized={customLoader}
-          src="https://cdn.pixabay.com/photo/2017/09/18/17/32/smilie-2762568_1280.png"
+          src={newsAppThumbnail}
           alt="Default Image"
           layout="responsive"
           width={700} // Adjust width as needed
@@ -159,37 +160,52 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
         >
           {isFavorite(article) ? (
             <IconWrapper>
-              <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />
+              <BookmarkCheck color="#FAF9F6" size={35} strokeWidth={1} />
             </IconWrapper>
           ) : (
             <IconWrapper>
-              <Bookmark color="#FAF9F6" size={45} strokeWidth={1} />
+              <Bookmark
+                fill="#FAF9F6"
+                color="#FAF9F6"
+                size={35}
+                strokeWidth={1}
+              />
             </IconWrapper>
           )}
         </FavoriteButton>
       )}
-      <Link href={article.url} style={{ textDecoration: "none" }}>
-        <Title>{article.title}</Title>
-      </Link>
-      <Link href={article.url} style={{ textDecoration: "none" }}>
-        <Description>{article.description}</Description>
-      </Link>
-      <Link href={article.url} style={{ textDecoration: "none" }}>
-        <Author>
-          <StyledStrong>Author:</StyledStrong> {article.author}
-        </Author>
-      </Link>
-      <Link href={article.url} style={{ textDecoration: "none" }}>
-        <PublishedAt>
-          <StyledStrong>Published At:</StyledStrong>{" "}
-          {new Date(article.publishedAt).toLocaleString()}
-        </PublishedAt>
-      </Link>
-      <Link href={article.url} style={{ textDecoration: "none" }}>
-        <PublishedAt>
-          <StyledStrong>Source:</StyledStrong> {article.source.name}
-        </PublishedAt>
-      </Link>
+      {article.title && (
+        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+          <Title>{article.title}</Title>
+        </Link>
+      )}
+      {article.description && (
+        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+          <Description>{article.description}</Description>
+        </Link>
+      )}
+      {article.author && (
+        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+          <Author>
+            <StyledStrong>Author:</StyledStrong> {article.author}
+          </Author>
+        </Link>
+      )}
+      {article.publishedAt && (
+        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+          <PublishedAt>
+            <StyledStrong>Published At:</StyledStrong>{" "}
+            {new Date(article.publishedAt).toLocaleString()}
+          </PublishedAt>
+        </Link>
+      )}
+      {article.source.name && (
+        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+          <PublishedAt>
+            <StyledStrong>Source:</StyledStrong> {article.source.name}
+          </PublishedAt>
+        </Link>
+      )}
     </Card>
   );
 }

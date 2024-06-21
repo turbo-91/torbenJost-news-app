@@ -1,5 +1,6 @@
 // components/SearchBar/SearchBarComp.js
-import DateRangeComp from "./DateRangePicker/DateRangeComp";
+import DateRangeCompFrom from "./DateRangePicker/DateRangeCompFrom";
+import DateRangeCompTo from "./DateRangePicker/DateRangeCompTo";
 import LanguageDropdown from "../LanguageDropdown/LanguageDropdownComp";
 import { useState } from "react";
 import styled from "styled-components";
@@ -71,20 +72,18 @@ export default function SearchBar({
   return (
     <Form onSubmit={handleSubmit}>
       <Label htmlFor="date-from">From</Label>
-      <DateRangeComp
-        id="date-from"
+      <DateRangeCompFrom
         dateRange={dateRangeFrom}
         setDateRange={setDateRangeFrom}
       />
       <Label htmlFor="date-to">To</Label>
-      <DateRangeComp dateRange={dateRangeTo} setDateRange={setDateRangeTo} />
-      <Label htmlFor="date-to">Select a language:</Label>
+      <DateRangeCompTo dateRange={dateRangeTo} setDateRange={setDateRangeTo} />
+      <Label htmlFor="select-language">Select a language:</Label>
       <LanguageDropdown
-        id="date-to"
         languageValue={languageValue}
         setLanguageValue={setLanguageValue}
       />
-      <Label htmlFor="keywords">Type a keyword:</Label>
+      <Label htmlFor="keywords">Type one keyword:</Label>
       <Input
         id="keywords"
         value={keyWord}

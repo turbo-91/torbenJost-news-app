@@ -65,7 +65,7 @@ export default function NavBarComp() {
         <IconWrapper>
           <UserRound color="#001233" strokeWidth={1} />
         </IconWrapper>
-        Login
+        User Area
       </NavLink>
     </NavBar>
   );

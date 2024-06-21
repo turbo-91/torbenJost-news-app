@@ -5,7 +5,7 @@ import format from "date-fns/format";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-export default function DateRangeComp({ dateRange, setDateRange }) {
+export default function DateRangeCompTo({ dateRange, setDateRange }) {
   // open close calendar table state:
   const [open, setOpen] = useState(false);
 
@@ -47,6 +47,7 @@ export default function DateRangeComp({ dateRange, setDateRange }) {
   return (
     <div className="calenderWrap">
       <input
+        id="date-to"
         value={dateRange}
         readOnly
         className="dataRangeInputBox"

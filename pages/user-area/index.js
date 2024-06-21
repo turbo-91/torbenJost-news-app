@@ -3,6 +3,7 @@ import styled from "styled-components";
 import LoginButton from "@/components/LoginButton";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Container = styled.div`
   max-width: 600px;
@@ -40,9 +41,18 @@ export default function LoginPage() {
       <Content>
         <LoginButton />
         {session && (
-          <Link href={`/favorites`}>
-            <StyledLink>See your favorite articles</StyledLink>
-          </Link>
+          <>
+            {" "}
+            <Image
+              src={session.user.image}
+              alt="User Avatar"
+              width={100}
+              height={100}
+            />
+            <Link href={`/favorites`}>
+              <StyledLink>See your favorite articles</StyledLink>
+            </Link>
+          </>
         )}
       </Content>
     </Container>
