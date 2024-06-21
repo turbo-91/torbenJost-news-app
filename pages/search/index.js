@@ -5,15 +5,16 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const NavigationBlocker = styled.div`
-  position: absolute;
-  padding: 5vh;
+const PageContainer = styled.div`
+  margin-top: 3vh;
+  padding: 0 20px; /* Adjust padding as needed */
 `;
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 2rem;
 `;
 
 const PaginationButton = styled.button`
@@ -42,10 +43,10 @@ export default function SearchPage({ favorites, setFavorites }) {
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, error } = useSWR(url, fetcher, { shouldRetryOnError: false });
   const isLoading = !error && !data && !!url;
+
   const handleSearch = () => {
     setUrl(
-      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&pageSize=20&page=${page}&apiKey=10181d5d9ec24883abec4df6256a487e`,
-      console.log("request url", url)
+      `https://newsapi.org/v2/everything?q=${keyWord}&from=${dateRangeFrom}&to=${dateRangeTo}&language=${languageValue}&pageSize=20&page=${page}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
 
@@ -59,7 +60,7 @@ export default function SearchPage({ favorites, setFavorites }) {
   };
 
   return (
-    <>
+    <PageContainer>
       <SearchBar
         dateRangeFrom={dateRangeFrom}
         setDateRangeFrom={setDateRangeFrom}
@@ -97,9 +98,8 @@ export default function SearchPage({ favorites, setFavorites }) {
               <ChevronRight color="#001233" size={25} strokeWidth={1} />
             </PaginationButton>
           </PaginationContainer>
-          <NavigationBlocker />
         </div>
       )}
-    </>
+    </PageContainer>
   );
 }
