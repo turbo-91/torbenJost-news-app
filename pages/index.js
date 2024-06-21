@@ -65,7 +65,7 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
   const handleCountryChange = (value) => {
     setCountryValue(value);
     setUrl(
-      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=21247b89f2cf48c48d0df5ed148af376`
+      `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=10181d5d9ec24883abec4df6256a487e`
     );
   };
 
