@@ -34,7 +34,7 @@ export default function App({
     }
 
     fetchFavorites();
-  }, [favorites, setFavorites]); // Empty dependency array ensures this effect runs only once on mount
+  }, [favorites]);
 
   return (
     <>

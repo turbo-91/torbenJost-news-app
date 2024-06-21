@@ -7,11 +7,7 @@ export default function Favorites({ favorites, toggleFavorite, setFavorites }) {
     <>
       <h1>favorites</h1>
       <Link href={`/user-area`}>back</Link>
-      <FavoritesList
-        favorites={favorites}
-        // toggleFavorite={toggleFavorite}
-        setFavorites={setFavorites}
-      />
+      <FavoritesList favorites={favorites} setFavorites={setFavorites} />
     </>
   );
 }
