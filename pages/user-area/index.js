@@ -102,14 +102,14 @@ export default function LoginPage(favorites, setFavorites) {
                 height={200}
               />
             </ImageSection>
-            <ButtonsContainer>
+            {/* <ButtonsContainer>
               <Link href="/favorites" passHref>
                 <FavoritesButton>Favorite Articles</FavoritesButton>
               </Link>
               <LogoutButton onClick={() => signOut()}>
                 <LogOut color="#001233" size={35} strokeWidth={1} />
               </LogoutButton>
-            </ButtonsContainer>
+            </ButtonsContainer> */}
           </UserSection>
         </>
       )}
