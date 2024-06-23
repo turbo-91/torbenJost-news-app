@@ -26,7 +26,7 @@ export default function SearchPage({
   };
 
   return (
-    <>
+    <div favorites={favorites} setFavorites={setFavorites}>
       <SearchBar
         dateRangeFrom={dateRangeFrom}
         setDateRangeFrom={setDateRangeFrom}
@@ -37,11 +37,13 @@ export default function SearchPage({
         keyWord={keyWord}
         setKeyword={setKeyword}
         onSearch={handleSearch}
+        favorites={favorites}
+        setFavorites={setFavorites}
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>Failed to load data</p>}
       {data && data.articles && (
-        <div>
+        <div favorites={favorites} setFavorites={setFavorites}>
           {data.articles.map((article, index) => (
             <ArticleCard
               key={index}
@@ -53,6 +55,6 @@ export default function SearchPage({
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

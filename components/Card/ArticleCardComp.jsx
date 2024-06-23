@@ -59,24 +59,25 @@ const FavoriteButton = styled.button`
 const StyledStrong = styled.strong`
   color: #001233;
 `;
-function findFavoriteIdByUrl(favorites, article) {
-  // Find the favorite object in favorites array that matches the current article's url
-  const favorite = favorites.find((fav) => fav.url === article.url);
-  // If favorite is found, return its _id property; otherwise, return null or handle as needed
-  return favorite ? favorite._id : null;
-}
 
 export default function ArticleCard({ article, favorites, setFavorites }) {
   // bypass next/Image components domain restriction! Caution! Security concern.
   const customLoader = ({ src }) => {
     return src;
   };
-  const { mutate } = useSWR("/api/favorites");
-  const { data: session } = useSession();
 
+  function findFavoriteIdByUrl(favorites, article) {
+    // Find the favorite object in favorites array that matches the current article's url
+    const favorite = favorites.find((fav) => fav.url === article.url);
+    // If favorite is found, return its _id property; otherwise, return null or handle as needed
+    return favorite ? favorite._id : null;
+  }
   const isFavorite = (article) => {
     return favorites.some((favorite) => favorite.url === article.url);
   };
+
+  const { mutate } = useSWR("/api/favorites");
+  const { data: session } = useSession();
 
   async function toggleFavorite() {
     const favoriteId = findFavoriteIdByUrl(favorites, article);
@@ -110,20 +111,22 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
 
       if (response.ok) {
         await response.json();
+        setFavorites((prevFavorites) => [...prevFavorites, articleUserId]);
         mutate();
-        console.log("favorites state after mutate post", articles);
+        console.log("favorites state after mutate post", article);
       } else {
         console.error(`Error: ${response.status}`);
       }
     } else {
-      console.log("favorites before delete", favorites);
-      console.log("article before delete", article);
       const response = await fetch(`/api/favorites/${favoriteId}`, {
         method: "DELETE",
       });
       if (response.ok) {
         await response.json();
-        console.log("favorites state after delete post", articles);
+        setFavorites((prevFavorites) =>
+          prevFavorites.filter((fav) => fav._id !== favoriteId)
+        );
+        mutate();
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -131,7 +134,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   }
 
   return (
-    <Card>
+    <Card isFavorite={isFavorite}>
       {article.urlToImage ? (
         <Image
           unoptimized={customLoader}
@@ -153,10 +156,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       )}
 
       {session && (
-        <FavoriteButton
-          onClick={toggleFavorite}
-          favorite={isFavorite(article).toString()}
-        >
+        <FavoriteButton onClick={toggleFavorite}>
           {isFavorite(article) ? (
             <IconWrapper>
               <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />

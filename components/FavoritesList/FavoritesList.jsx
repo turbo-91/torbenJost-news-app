@@ -1,9 +1,10 @@
 import useSWR from "swr";
 import ArticleCard from "../Card/ArticleCardComp";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
-const FavoritesList = ({ favorites, toggleFavorite, isFavorite }) => {
-  // fetch user favorites from database
+const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
+  // initial fetch user favorites from database
   const { data: session } = useSession();
   const fetcher = async (url) => {
     const response = await fetch(url);
@@ -20,6 +21,21 @@ const FavoritesList = ({ favorites, toggleFavorite, isFavorite }) => {
 
   const favoriteArticles = data;
 
+  // Fetch favorites whenever the favorites state changes
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const response = await fetch("/api/favorites");
+      if (response.ok) {
+        const updatedFavorites = await response.json();
+        setFavorites(updatedFavorites);
+      } else {
+        console.error(`Error fetching favorites: ${response.status}`);
+      }
+    };
+
+    fetchFavorites();
+  }, [favorites]);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -27,8 +43,6 @@ const FavoritesList = ({ favorites, toggleFavorite, isFavorite }) => {
   if (!data) {
     return;
   }
-
-  // next block
 
   return (
     <div>
@@ -41,6 +55,7 @@ const FavoritesList = ({ favorites, toggleFavorite, isFavorite }) => {
             article={article}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
+            setFavorites={setFavorites}
           />
         ))
       )}

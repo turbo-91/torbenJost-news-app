@@ -14,7 +14,7 @@ export default function App({
   ////////// favorite functionality ///////////
 
   const [favorites, setFavorites] = useState([]); // state to represent if an article is in the database or not
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // state to represent if the favorite fetching is loading
 
   useEffect(() => {
     async function fetchFavorites() {
@@ -34,7 +34,7 @@ export default function App({
     }
 
     fetchFavorites();
-  }, [favorites, setFavorites]); // Empty dependency array ensures this effect runs only once on mount
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <>
