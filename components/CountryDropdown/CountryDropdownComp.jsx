@@ -94,7 +94,7 @@ export default function CountryDropdown({ countryValue, setCountryValue }) {
     <DropdownContainer>
       <DropdownWrapper>
         <Dropdown
-          key="country-select"
+          id="country-select"
           value={countryValue}
           onChange={handleSelect}
         >
