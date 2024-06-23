@@ -14,9 +14,10 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const favoriteData = request.body;
-      await Favorite.create(favoriteData);
+      const newFavorite = await Favorite.create(favoriteData);
 
-      response.status(201).json({ status: "Favorite created" });
+      // Return the newly created favorite object
+      response.status(201).json(newFavorite);
     } catch (e) {
       console.error("Error in POST in /", e);
       response.status(400).json({ error: error.message });

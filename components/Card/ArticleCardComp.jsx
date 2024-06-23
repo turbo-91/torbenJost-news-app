@@ -78,9 +78,17 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
 
   const { mutate } = useSWR("/api/favorites");
   const { data: session } = useSession();
+  const userId = session?.user?.userId;
+
+  function findFavoriteByUrl(favorites, article, userId) {
+    // Find the favorite object in the favorites array that matches the current article's URL and userId
+    return favorites.find(
+      (fav) => fav.url === article.url && fav.userId === userId
+    );
+  }
 
   async function toggleFavorite() {
-    const favoriteId = findFavoriteIdByUrl(favorites, article);
+    const favoriteWithAllIds = findFavoriteByUrl(favorites, article, userId);
     const {
       source: { id: sourceId, name: sourceName },
       author,
@@ -110,21 +118,23 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       });
 
       if (response.ok) {
-        await response.json();
-        setFavorites((prevFavorites) => [...prevFavorites, articleUserId]);
+        const newFavorite = await response.json();
+
+        // Update the favorites state
+        setFavorites((prevFavorites) => [...prevFavorites, newFavorite]);
         mutate();
-        console.log("favorites state after mutate post", article);
       } else {
         console.error(`Error: ${response.status}`);
       }
     } else {
-      const response = await fetch(`/api/favorites/${favoriteId}`, {
+      console.log("does findfavoritebyurl work?", favoriteWithAllIds._id);
+      const response = await fetch(`/api/favorites/${favoriteWithAllIds._id}`, {
         method: "DELETE",
       });
       if (response.ok) {
         await response.json();
         setFavorites((prevFavorites) =>
-          prevFavorites.filter((fav) => fav._id !== favoriteId)
+          prevFavorites.filter((fav) => fav._id !== favoriteWithAllIds._id)
         );
         mutate();
       } else {

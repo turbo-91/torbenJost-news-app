@@ -21,21 +21,6 @@ const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
 
   const favoriteArticles = data;
 
-  // Fetch favorites whenever the favorites state changes
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      const response = await fetch("/api/favorites");
-      if (response.ok) {
-        const updatedFavorites = await response.json();
-        setFavorites(updatedFavorites);
-      } else {
-        console.error(`Error fetching favorites: ${response.status}`);
-      }
-    };
-
-    fetchFavorites();
-  }, [favorites]);
-
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
