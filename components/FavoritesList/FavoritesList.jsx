@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import ArticleCard from "../Card/ArticleCardComp";
 import { useSession } from "next-auth/react";
+import styled from "styled-components";
+
 
 const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
   // initial fetch user favorites from database

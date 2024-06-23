@@ -23,7 +23,11 @@ export default function LanguageDropdown({ languageValue, setLanguageValue }) {
   return (
     <div className="flex justify-content-center mt-5">
       <div className="w-50 p-3 border rounded">
-        <select className="form-select" onChange={handleSelect}>
+        <select
+          id="select-language"
+          className="form-select"
+          onChange={handleSelect}
+        >
           <option>All</option>
           {options.map((option) => (
             <option value={option.value} key={option.value}>

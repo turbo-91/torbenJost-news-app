@@ -14,6 +14,7 @@ export const authOptions = {
           id: profile.id,
           name: profile.name,
           email: profile.email,
+          image: profile.avatar_url,
         };
       },
     }),
@@ -27,6 +28,7 @@ export const authOptions = {
       session.user.userId = user.id;
       session.user.name = user.name;
       session.user.email = user.email;
+      session.user.image = user.image;
 
       console.log("session", session);
 
