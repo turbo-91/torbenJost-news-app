@@ -63,13 +63,11 @@ const LogoutButton = styled.button`
   }
 `;
 
-export default function LoginPage({ favorites, setFavorites }) {
+export default function LoginPage(favorites, setFavorites) {
   const { data: session, status } = useSession();
 
   return (
-    <>
-      {" "}
-      <Container>
+    <Container favorites={favorites} setFavorites={setFavorites}>
         <LoginButton />
         {session && (
           <>

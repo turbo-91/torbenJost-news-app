@@ -3,18 +3,9 @@ import ArticleCard from "../Card/ArticleCardComp";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
 
-const Title = styled.h2`
-  font-family: Bookman, Garamond, Georgia;
-  font-size: 1.3em;
-  margin-bottom: 8px;
-  color: #001233;
-  text-align: justify;
-  padding-left: 1rem;
-  padding-right: 1rem;
-`;
 
-const FavoritesList = ({ favorites }) => {
-  // fetch user favorites from database
+const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
+  // initial fetch user favorites from database
   const { data: session } = useSession();
   const fetcher = async (url) => {
     const response = await fetch(url);
@@ -39,21 +30,20 @@ const FavoritesList = ({ favorites }) => {
     return;
   }
 
-  // next block
-
   return (
     <div>
       {favorites.length === 0 ? (
         <p>No favorite articles yet.</p>
       ) : (
-        <>
-          <Title>
-            Hey there {session.user.name}! Here are your favorite articles:
-          </Title>
-          {favoriteArticles.map((article, index) => (
-            <ArticleCard key={index} article={article} favorites={favorites} />
-          ))}
-        </>
+        favoriteArticles.map((article, index) => (
+          <ArticleCard
+            key={index}
+            article={article}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            setFavorites={setFavorites}
+          />
+        ))
       )}
     </div>
   );

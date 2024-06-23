@@ -63,31 +63,38 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-function findFavoriteIdByUrl(favorites, article) {
-  // Find the favorite object in favorites array that matches the current article's url
-  const favorite = favorites.find((fav) => fav.url === article.url);
-  // If favorite is found, return its _id property; otherwise, return null or handle as needed
-  return favorite ? favorite._id : null;
-}
-
 export default function ArticleCard({ article, favorites, setFavorites }) {
   // bypass next/Image components domain restriction! Caution! Security concern.
   const customLoader = ({ src }) => {
     return src;
   };
 
+
   // Data Fetching
 
   const { mutate } = useSWR("/api/favorites");
   const { data: session } = useSession();
+  const userId = session?.user?.userId;
 
-  const isFavorite = (article) => {
-    return favorites.some((favorite) => favorite.url === article.url);
-  };
-  const router = useRouter();
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (favorites && userId) {
+      setIsFavorite(
+        findFavoriteByUrl(favorites, article, userId) !== undefined
+      );
+    }
+  }, [favorites, userId, article]);
+
+  function findFavoriteByUrl(favorites, article, userId) {
+    return favorites.find(
+      (fav) => fav.url === article.url && fav.userId === userId
+    );
+  }
 
   async function toggleFavorite() {
-    const favoriteId = findFavoriteIdByUrl(favorites, article);
+    const favoriteWithAllIds = findFavoriteByUrl(favorites, article, userId);
     const {
       source: { id: sourceId, name: sourceName },
       author,
@@ -109,7 +116,8 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       __v,
       userId: session.user.userId,
     };
-    if (!isFavorite(article)) {
+
+    if (!isFavorite) {
       const response = await fetch("/api/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,22 +125,26 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       });
 
       if (response.ok) {
-        await response.json();
-        mutate("api/favorites");
-        console.log("favorites state after mutate post", favorites);
+        const newFavorite = await response.json();
+        setFavorites((prevFavorites) => [...prevFavorites, newFavorite]);
+        setIsFavorite(true);
+        mutate();
+
       } else {
         console.error(`Error: ${response.status}`);
       }
     } else {
-      console.log("favorites before delete", favorites);
-      console.log("article before delete", article);
-      const response = await fetch(`/api/favorites/${favoriteId}`, {
+      const response = await fetch(`/api/favorites/${favoriteWithAllIds._id}`, {
         method: "DELETE",
       });
       if (response.ok) {
         await response.json();
-        console.log("favorites state after delete post", favorites);
-        mutate("api/favorites");
+
+        setFavorites((prevFavorites) =>
+          prevFavorites.filter((fav) => fav._id !== favoriteWithAllIds._id)
+        );
+        setIsFavorite(false);
+        mutate();
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -140,15 +152,15 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
   }
 
   return (
-    <Card>
+    <Card isFavorite={isFavorite}>
       {article.urlToImage ? (
         <Image
           unoptimized={customLoader}
           src={article.urlToImage}
           alt={article.title}
           layout="responsive"
-          width={700} // Adjust width as needed
-          height={400} // Adjust height as needed
+          width={700}
+          height={400}
         />
       ) : (
         <Image
@@ -156,17 +168,14 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
           src={newsAppThumbnail}
           alt="Default Image"
           layout="responsive"
-          width={700} // Adjust width as needed
-          height={400} // Adjust height as needed
+          width={700}
+          height={400}
         />
       )}
 
       {session && (
-        <FavoriteButton
-          onClick={toggleFavorite}
-          favorite={isFavorite(article).toString()}
-        >
-          {isFavorite(article) ? (
+        <FavoriteButton onClick={toggleFavorite}>
+          {isFavorite ? (
             <IconWrapper>
               <BookmarkCheck color="#FAF9F6" size={35} strokeWidth={1} />
             </IconWrapper>

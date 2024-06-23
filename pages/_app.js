@@ -14,7 +14,7 @@ export default function App({
   ////////// favorite functionality ///////////
 
   const [favorites, setFavorites] = useState([]); // state to represent if an article is in the database or not
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // state to represent if the favorite fetching is loading
 
   useEffect(() => {
     async function fetchFavorites() {

@@ -92,7 +92,6 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
   };
 
   return (
-    <Container>
       <CountryDropdownContainer>
         <label htmlFor="country-select">Select a country:</label>
         <CountryDropdown
@@ -111,8 +110,13 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
       {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
       {error && <ErrorMessage>Failed to load data</ErrorMessage>}
       {data && data.articles && (
-        <SliderContainer>
-          <Slider ref={sliderRef} {...settings}>
+        <SliderContainer favorites={favorites} setFavorites={setFavorites}>
+          <Slider
+            ref={sliderRef}
+            {...settings}
+            favorites={favorites}
+            setFavorites={setFavorites}
+          >
             {data.articles.map((article, index) => (
               <div key={index}>
                 <ArticleCard
