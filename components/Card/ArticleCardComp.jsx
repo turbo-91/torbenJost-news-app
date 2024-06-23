@@ -66,22 +66,21 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
     return src;
   };
 
-  function findFavoriteIdByUrl(favorites, article) {
-    // Find the favorite object in favorites array that matches the current article's url
-    const favorite = favorites.find((fav) => fav.url === article.url);
-    // If favorite is found, return its _id property; otherwise, return null or handle as needed
-    return favorite ? favorite._id : null;
-  }
-  const isFavorite = (article) => {
-    return favorites.some((favorite) => favorite.url === article.url);
-  };
-
   const { mutate } = useSWR("/api/favorites");
   const { data: session } = useSession();
   const userId = session?.user?.userId;
 
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (favorites && userId) {
+      setIsFavorite(
+        findFavoriteByUrl(favorites, article, userId) !== undefined
+      );
+    }
+  }, [favorites, userId, article]);
+
   function findFavoriteByUrl(favorites, article, userId) {
-    // Find the favorite object in the favorites array that matches the current article's URL and userId
     return favorites.find(
       (fav) => fav.url === article.url && fav.userId === userId
     );
@@ -110,7 +109,8 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
       __v,
       userId: session.user.userId,
     };
-    if (!isFavorite(article)) {
+
+    if (!isFavorite) {
       const response = await fetch("/api/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -119,15 +119,13 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
 
       if (response.ok) {
         const newFavorite = await response.json();
-
-        // Update the favorites state
         setFavorites((prevFavorites) => [...prevFavorites, newFavorite]);
+        setIsFavorite(true);
         mutate();
       } else {
         console.error(`Error: ${response.status}`);
       }
     } else {
-      console.log("does findfavoritebyurl work?", favoriteWithAllIds._id);
       const response = await fetch(`/api/favorites/${favoriteWithAllIds._id}`, {
         method: "DELETE",
       });
@@ -136,6 +134,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
         setFavorites((prevFavorites) =>
           prevFavorites.filter((fav) => fav._id !== favoriteWithAllIds._id)
         );
+        setIsFavorite(false);
         mutate();
       } else {
         console.error(`Error: ${response.status}`);
@@ -151,8 +150,8 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
           src={article.urlToImage}
           alt={article.title}
           layout="responsive"
-          width={700} // Adjust width as needed
-          height={400} // Adjust height as needed
+          width={700}
+          height={400}
         />
       ) : (
         <Image
@@ -160,14 +159,14 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
           src="https://cdn.pixabay.com/photo/2017/09/18/17/32/smilie-2762568_1280.png"
           alt="Default Image"
           layout="responsive"
-          width={700} // Adjust width as needed
-          height={400} // Adjust height as needed
+          width={700}
+          height={400}
         />
       )}
 
       {session && (
         <FavoriteButton onClick={toggleFavorite}>
-          {isFavorite(article) ? (
+          {isFavorite ? (
             <IconWrapper>
               <BookmarkCheck color="#FAF9F6" size={45} strokeWidth={1} />
             </IconWrapper>
