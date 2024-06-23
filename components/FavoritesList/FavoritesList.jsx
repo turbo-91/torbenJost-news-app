@@ -3,6 +3,13 @@ import ArticleCard from "../Card/ArticleCardComp";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
 
+const Paragraph = styled.p`
+  color: black;
+  margin: 8px 0;
+  text-align: center;
+  font-size: 1em;
+  font-family: Helvetica, Arial, sans-serif;
+`;
 
 const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
   // initial fetch user favorites from database
@@ -33,7 +40,7 @@ const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
   return (
     <div>
       {favorites.length === 0 ? (
-        <p>No favorite articles yet.</p>
+        <Paragraph>No favorite articles yet.</Paragraph>
       ) : (
         favoriteArticles.map((article, index) => (
           <ArticleCard

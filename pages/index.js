@@ -92,6 +92,7 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
   };
 
   return (
+    <Container>
       <CountryDropdownContainer>
         <label htmlFor="country-select">Select a country:</label>
         <CountryDropdown
