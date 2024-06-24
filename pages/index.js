@@ -100,14 +100,16 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
           setCountryValue={handleCountryChange}
         />
       </CountryDropdownContainer>
-      <NavigationButtons>
-        <button onClick={previous}>
-          <CircleArrowLeft color="#001233" strokeWidth={1} />
-        </button>
-        <button onClick={next}>
-          <CircleArrowRight color="#001233" strokeWidth={1} />
-        </button>
-      </NavigationButtons>
+      {countryValue && (
+        <NavigationButtons>
+          <button onClick={previous}>
+            <CircleArrowLeft color="#001233" strokeWidth={1} />
+          </button>
+          <button onClick={next}>
+            <CircleArrowRight color="#001233" strokeWidth={1} />
+          </button>
+        </NavigationButtons>
+      )}
       {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
       {error && <ErrorMessage>Failed to load data</ErrorMessage>}
       {data && data.articles && (
@@ -123,7 +125,6 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
                 <ArticleCard
                   article={article}
                   favorites={favorites}
-                  // toggleFavorite={toggleFavorite}
                   setFavorites={setFavorites}
                 />
               </div>
