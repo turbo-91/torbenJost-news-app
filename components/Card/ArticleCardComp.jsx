@@ -189,36 +189,61 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
         </FavoriteButton>
       )}
       {article.title && (
-        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
           <Title>{article.title}</Title>
-        </Link>
+        </a>
       )}
       {article.description && (
-        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
           <Description>{article.description}</Description>
-        </Link>
+        </a>
       )}
       {article.author && (
-        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
           <Author>
             <StyledStrong>Author:</StyledStrong> {article.author}
           </Author>
-        </Link>
+        </a>
       )}
       {article.publishedAt && (
-        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
           <PublishedAt>
             <StyledStrong>Published At:</StyledStrong>{" "}
             {new Date(article.publishedAt).toLocaleString()}
           </PublishedAt>
-        </Link>
+        </a>
       )}
       {article.source.name && (
-        <Link href={article.url} style={{ textDecoration: "none" }} passHref>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
           <PublishedAt>
             <StyledStrong>Source:</StyledStrong> {article.source.name}
           </PublishedAt>
-        </Link>
+        </a>
       )}
     </Card>
   );
