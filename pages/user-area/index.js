@@ -113,6 +113,10 @@ const SearchesButton = styled.button`
 export default function LoginPage(favorites, setFavorites) {
   const { data: session, status } = useSession();
 
+  const handleSearchButtonClick = () => {
+    alert("Stay tuned!");
+  };
+
   return (
     <Container favorites={favorites} setFavorites={setFavorites}>
       <LoginButton />
@@ -131,8 +135,11 @@ export default function LoginPage(favorites, setFavorites) {
             <ButtonsContainer>
               <Link href="/favorites" passHref>
                 <FavoritesButton>Favorite Articles</FavoritesButton>
-                <SearchesButton>Search Patterns</SearchesButton>
               </Link>
+              <SearchesButton onClick={handleSearchButtonClick}>
+                Search Patterns
+              </SearchesButton>
+
               <LogoutButton onClick={() => signOut()}>
                 <LogOut color="#001233" size={40} strokeWidth={0.7} />
               </LogoutButton>
