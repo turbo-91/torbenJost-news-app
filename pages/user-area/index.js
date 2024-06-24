@@ -60,7 +60,7 @@ const ButtonsContainer = styled.div`
 `;
 
 const LogoutButton = styled.button`
-  padding: 10px 10px;
+  padding: 0;
   background-color: transparent;
   color: #001233;
   border: none;
@@ -69,6 +69,7 @@ const LogoutButton = styled.button`
   cursor: pointer;
   border: none;
   text-decoration: none;
+  margin: 0;
 
   &:hover {
     opacity: 80%;
@@ -133,7 +134,7 @@ export default function LoginPage(favorites, setFavorites) {
                 <SearchesButton>Search Patterns</SearchesButton>
               </Link>
               <LogoutButton onClick={() => signOut()}>
-                <LogOut color="#001233" size={40} strokeWidth={1} />
+                <LogOut color="#001233" size={40} strokeWidth={0.7} />
               </LogoutButton>
             </ButtonsContainer>
           </UserSection>
