@@ -21,6 +21,7 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  position: relative;
 `;
 
 const UserSection = styled.div`
@@ -55,29 +56,53 @@ const CircularImage = styled(Image)`
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const LogoutButton = styled.button`
-  background: none;
+  padding: 10px 10px;
+  background-color: transparent;
+  color: #001233;
   border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
   cursor: pointer;
-  margin-left: 10px; /* Add margin for spacing */
+  border: none;
+  text-decoration: none;
+
   &:hover {
     opacity: 80%;
   }
 `;
 
 const FavoritesButton = styled.button`
-  padding: 10px 15px;
+  padding: 10px 10px;
   background-color: transparent;
   color: #001233;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  align-self: flex-start;
   border: 1px solid #001233;
   text-decoration: none;
+  margin: 0 1vw;
+
+  &:hover {
+    opacity: 80%;
+  }
+`;
+
+const SearchesButton = styled.button`
+  padding: 10px 10px;
+  background-color: transparent;
+  color: #001233;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: 1px solid #001233;
+  text-decoration: none;
+  margin: 0 1vw;
 
   &:hover {
     opacity: 80%;
@@ -105,9 +130,10 @@ export default function LoginPage(favorites, setFavorites) {
             <ButtonsContainer>
               <Link href="/favorites" passHref>
                 <FavoritesButton>Favorite Articles</FavoritesButton>
+                <SearchesButton>Search Patterns</SearchesButton>
               </Link>
               <LogoutButton onClick={() => signOut()}>
-                <LogOut color="#001233" size={35} strokeWidth={1} />
+                <LogOut color="#001233" size={40} strokeWidth={1} />
               </LogoutButton>
             </ButtonsContainer>
           </UserSection>
