@@ -7,6 +7,17 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
 import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
+import Image from "next/image";
+import newsAppThumbnail from "/public/news-app-thumbnail.png";
+
+const Title = styled.h2`
+  font-family: Bookman, Garamond, Georgia;
+  font-size: 2em;
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  color: #001233;
+  text-align: center;
+`;
 
 const Container = styled.div`
   max-width: 800px;
@@ -59,6 +70,11 @@ const NavigationButtons = styled.div`
 `;
 
 export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
+  // bypass next/Image components domain restriction! Caution! Security concern.
+  const customLoader = ({ src }) => {
+    return src;
+  };
+
   // Data fetching
   const [url, setUrl] = useState(null);
   const [countryValue, setCountryValue] = useState("");
@@ -93,6 +109,7 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
 
   return (
     <Container>
+      {/* <Title>Global Headlines</Title> */}
       <CountryDropdownContainer>
         <label htmlFor="country-select">Select a country:</label>
         <CountryDropdown
@@ -100,6 +117,16 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
           setCountryValue={handleCountryChange}
         />
       </CountryDropdownContainer>
+      {!countryValue && (
+        <Image
+          unoptimized={customLoader}
+          src={newsAppThumbnail}
+          alt="Default Image"
+          layout="responsive"
+          width={700}
+          height={400}
+        />
+      )}
       {countryValue && (
         <NavigationButtons>
           <button onClick={previous}>
