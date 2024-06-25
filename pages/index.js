@@ -9,6 +9,7 @@ import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
 import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
 import Image from "next/image";
 import newsAppThumbnail from "/public/news-app-thumbnail.png";
+import newsAppThumbNoText from "/public/newsapp-notext.png";
 
 const Title = styled.h2`
   font-family: Bookman, Garamond, Georgia;
@@ -49,6 +50,13 @@ const CountryDropdownContainer = styled.div`
     margin-bottom: 10px;
     color: #001233;
   }
+`;
+
+const StyledLabel = styled.label`
+  margin-bottom: 10px;
+  color: #001233;
+  font-size: 1.1em; /* Adjust font size as needed */
+  font-weight: bold;
 `;
 
 const NavigationButtons = styled.div`
@@ -109,24 +117,13 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
 
   return (
     <Container>
-      {/* <Title>Global Headlines</Title> */}
       <CountryDropdownContainer>
-        <label htmlFor="country-select">Select a country:</label>
+        <StyledLabel htmlFor="country-select">Top Headlines from:</StyledLabel>
         <CountryDropdown
           countryValue={countryValue}
           setCountryValue={handleCountryChange}
         />
       </CountryDropdownContainer>
-      {!countryValue && (
-        <Image
-          unoptimized={customLoader}
-          src={newsAppThumbnail}
-          alt="Default Image"
-          layout="responsive"
-          width={700}
-          height={400}
-        />
-      )}
       {countryValue && (
         <NavigationButtons>
           <button onClick={previous}>
@@ -136,6 +133,17 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
             <CircleArrowRight color="#001233" strokeWidth={1} />
           </button>
         </NavigationButtons>
+      )}
+
+      {!countryValue && (
+        <Image
+          unoptimized={customLoader}
+          src={newsAppThumbNoText}
+          alt="Default Image"
+          layout="responsive"
+          width={700}
+          height={400}
+        />
       )}
       {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
       {error && <ErrorMessage>Failed to load data</ErrorMessage>}

@@ -31,7 +31,7 @@ const Title = styled.h2`
 `;
 
 const Description = styled.p`
-  color: black;
+  color: #001233;
   margin: 8px 0;
   text-align: justify;
   font-size: 1em;
@@ -40,13 +40,13 @@ const Description = styled.p`
 
 const Author = styled.p`
   margin: 8px 0;
-  color: black;
+  color: #001233;
   font-family: Helvetica, Arial;
   text-align: left; /* Align left */
 `;
 
 const PublishedAt = styled.p`
-  color: black;
+  color: #001233;
   margin: 8px 0;
   font-family: Helvetica, Arial;
   text-align: left; /* Align left */
