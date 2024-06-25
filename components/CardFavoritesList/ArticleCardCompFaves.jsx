@@ -63,7 +63,12 @@ const StyledStrong = styled.strong`
   color: #001233;
 `;
 
-export default function ArticleCard({ article, favorites, setFavorites }) {
+export default function ArticleCardFaves({
+  article,
+  favorites,
+  setFavorites,
+  mutate,
+}) {
   // bypass next/Image components domain restriction! Caution! Security concern.
   const customLoader = ({ src }) => {
     return src;
@@ -71,7 +76,7 @@ export default function ArticleCard({ article, favorites, setFavorites }) {
 
   // Data Fetching
 
-  const { mutate } = useSWR("/api/favorites");
+  // const { mutate } = useSWR("/api/favorites");
   const { data: session } = useSession();
   const userId = session?.user?.userId;
 

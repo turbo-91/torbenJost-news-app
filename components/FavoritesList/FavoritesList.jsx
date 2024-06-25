@@ -2,6 +2,7 @@ import useSWR from "swr";
 import ArticleCard from "../Card/ArticleCardComp";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
+import ArticleCardFaves from "../CardFavoritesList/ArticleCardCompFaves";
 
 const Paragraph = styled.p`
   color: black;
@@ -22,7 +23,7 @@ const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
     const data = await response.json();
     return data;
   };
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error, mutate } = useSWR(
     session ? `/api/user/favorites/${session.user?.userId}` : null,
     fetcher
   );
@@ -43,12 +44,13 @@ const FavoritesList = ({ favorites, setFavorites, toggleFavorite }) => {
         <Paragraph>No favorite articles yet.</Paragraph>
       ) : (
         favoriteArticles.map((article, index) => (
-          <ArticleCard
+          <ArticleCardFaves
             key={index}
             article={article}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
             setFavorites={setFavorites}
+            mutate={mutate}
           />
         ))
       )}

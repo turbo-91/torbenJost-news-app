@@ -7,6 +7,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CountryDropdown from "@/components/CountryDropdown/CountryDropdownComp";
 import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
+import Image from "next/image";
+import newsAppThumbnail from "/public/news-app-thumbnail.png";
+import newsAppThumbNoText from "/public/newsapp-notext.png";
+
+const Title = styled.h2`
+  font-family: Bookman, Garamond, Georgia;
+  font-size: 2em;
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  color: #001233;
+  text-align: center;
+`;
 
 const Container = styled.div`
   max-width: 800px;
@@ -40,6 +52,13 @@ const CountryDropdownContainer = styled.div`
   }
 `;
 
+const StyledLabel = styled.label`
+  margin-bottom: 10px;
+  color: #001233;
+  font-size: 1.1em; /* Adjust font size as needed */
+  font-weight: bold;
+`;
+
 const NavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
@@ -59,6 +78,11 @@ const NavigationButtons = styled.div`
 `;
 
 export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
+  // bypass next/Image components domain restriction! Caution! Security concern.
+  const customLoader = ({ src }) => {
+    return src;
+  };
+
   // Data fetching
   const [url, setUrl] = useState(null);
   const [countryValue, setCountryValue] = useState("");
@@ -94,20 +118,33 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
   return (
     <Container>
       <CountryDropdownContainer>
-        <label htmlFor="country-select">Select a country:</label>
+        <StyledLabel htmlFor="country-select">Top Headlines from:</StyledLabel>
         <CountryDropdown
           countryValue={countryValue}
           setCountryValue={handleCountryChange}
         />
       </CountryDropdownContainer>
-      <NavigationButtons>
-        <button onClick={previous}>
-          <CircleArrowLeft color="#001233" strokeWidth={1} />
-        </button>
-        <button onClick={next}>
-          <CircleArrowRight color="#001233" strokeWidth={1} />
-        </button>
-      </NavigationButtons>
+      {countryValue && (
+        <NavigationButtons>
+          <button onClick={previous}>
+            <CircleArrowLeft color="#001233" strokeWidth={1} />
+          </button>
+          <button onClick={next}>
+            <CircleArrowRight color="#001233" strokeWidth={1} />
+          </button>
+        </NavigationButtons>
+      )}
+
+      {!countryValue && (
+        <Image
+          unoptimized={customLoader}
+          src={newsAppThumbNoText}
+          alt="Default Image"
+          layout="responsive"
+          width={700}
+          height={400}
+        />
+      )}
       {isLoading && <LoadingMessage>Loading...</LoadingMessage>}
       {error && <ErrorMessage>Failed to load data</ErrorMessage>}
       {data && data.articles && (
@@ -123,7 +160,6 @@ export default function HomePage({ favorites, toggleFavorite, setFavorites }) {
                 <ArticleCard
                   article={article}
                   favorites={favorites}
-                  // toggleFavorite={toggleFavorite}
                   setFavorites={setFavorites}
                 />
               </div>
